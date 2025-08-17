@@ -1,17 +1,20 @@
 // src/main.tsx
-import React from 'react';
+
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom'; // 1. Import the router
 import App from './App.tsx';
-import { ThemeProvider, ToastProvider } from '@bodewell/ui'; // <-- Import ToastProvider
+import { ThemeProvider, ToastProvider } from '@bodewell/ui';
 import '@bodewell/ui/style.css';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <ThemeProvider>
-      <ToastProvider> {/* <-- Add the ToastProvider here */}
-        <App />
-      </ToastProvider>
-    </ThemeProvider>
-  </React.StrictMode>,
+  
+    <BrowserRouter> {/* 2. Wrap the entire application */}
+      <ThemeProvider>
+        <ToastProvider>
+          <App />
+        </ToastProvider>
+      </ThemeProvider>
+    </BrowserRouter>
+  
 );
