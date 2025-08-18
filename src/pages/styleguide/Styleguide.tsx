@@ -6,6 +6,7 @@ import LocalSideNav, { type NavItem } from './LocalSideNav';
 
 // Update the navItems to use page routes instead of anchor tags
 const navItems: NavItem[] = [
+  { label: 'Utilities', href: '/utilities' },
   { label: 'Colors', href: '/colors' },
   { label: 'Layout', href: '/layout' },
   { label: 'Templates', href: '/templates' },

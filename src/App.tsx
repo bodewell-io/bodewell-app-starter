@@ -15,6 +15,7 @@ import TablesSection from './pages/styleguide/sections/tables/TablesSection';
 import ChartsSection from './pages/styleguide/sections/charts/ChartsSection';
 import FeedbackSection from './pages/styleguide/sections/feedback/FeedbackSection';
 import IconsSection from './pages/styleguide/sections/icons/IconsSection';
+import UtilitiesSection from './pages/styleguide/sections/utilities/UtilitiesSection';
 
 // Import the NotFound page from its correct location
 import NotFound from './pages/styleguide/NotFound';
@@ -31,6 +32,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Styleguide />}>
             <Route index element={<Navigate to="/colors" replace />} />
+            <Route path="utilities" element={<UtilitiesSection />} />
             <Route path="colors" element={<ColorsSection />} />
             <Route path="layout" element={<LayoutSection />} />
             <Route path="templates" element={<TemplatesSection />} />
