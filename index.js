@@ -6,28 +6,45 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// This now reads the project name from the command line arguments
 const projectPath = process.argv[2];
 
-// This is the new, crucial validation step
 if (!projectPath) {
   console.error('Error: Please specify the project directory.');
-  console.log('  For example:');
-  console.log('    npm create bodewell-app@latest my-new-project');
+  console.log('  Usage: npm create bodewell-app@latest <project-directory>');
   process.exit(1);
 }
 
 const templatePath = path.resolve(__dirname, 'template');
+const destinationPath = path.resolve(process.cwd(), projectPath);
 
 try {
-  // Use the validated projectPath to create the new directory
-  fs.copySync(templatePath, projectPath);
+  if (!fs.existsSync(templatePath)) {
+    throw new Error(`Critical Error: The template directory could not be found at ${templatePath}`);
+  }
 
-  console.log(`\nSuccess! Your new Bodewell app is ready at ./${projectPath}`);
+  console.log(`Creating a new Bodewell app in ${destinationPath}...`);
+  fs.copySync(templatePath, destinationPath);
+
+  // --- This is the new part that renames the files ---
+  const pkgJsonPath = path.join(destinationPath, 'pkg.json');
+  const gitignorePath = path.join(destinationPath, 'gitignore');
+
+  if (fs.existsSync(pkgJsonPath)) {
+    fs.renameSync(pkgJsonPath, path.join(destinationPath, 'package.json'));
+  }
+  if (fs.existsSync(gitignorePath)) {
+    fs.renameSync(gitignorePath, path.join(destinationPath, '.gitignore'));
+  }
+  // ---------------------------------------------------
+
+  console.log(`\nSuccess! Your new Bodewell app is ready.`);
   console.log('\nTo get started:');
   console.log(`  cd ${projectPath}`);
   console.log(`  pnpm install`);
   console.log(`  pnpm run dev\n`);
+
 } catch (err) {
-  console.error('\nError creating the app:', err);
+  console.error('\nAn error occurred during installation:', err);
+  fs.removeSync(destinationPath); // Clean up in case of failure
+  process.exit(1);
 }
