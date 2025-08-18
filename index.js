@@ -6,18 +6,28 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const projectPath = process.argv[2] || 'my-bodewell-app';
-const templatePath = path.resolve(__dirname);
+// This now reads the project name from the command line arguments
+const projectPath = process.argv[2];
+
+// This is the new, crucial validation step
+if (!projectPath) {
+  console.error('Error: Please specify the project directory.');
+  console.log('  For example:');
+  console.log('    npm create bodewell-app@latest my-new-project');
+  process.exit(1);
+}
+
+const templatePath = path.resolve(__dirname, 'template');
 
 try {
-  fs.copySync(templatePath, projectPath, {
-    filter: (src) => !src.includes('node_modules') && !src.includes(projectPath) && !src.includes('index.js'),
-  });
+  // Use the validated projectPath to create the new directory
+  fs.copySync(templatePath, projectPath);
+
   console.log(`\nSuccess! Your new Bodewell app is ready at ./${projectPath}`);
-  console.log('\nTo get started, run the following commands:');
+  console.log('\nTo get started:');
   console.log(`  cd ${projectPath}`);
   console.log(`  pnpm install`);
   console.log(`  pnpm run dev\n`);
 } catch (err) {
-  console.error('Error creating the app:', err);
+  console.error('\nError creating the app:', err);
 }
