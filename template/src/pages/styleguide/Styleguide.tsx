@@ -18,21 +18,14 @@ const navItems: NavItem[] = [
 ];
 
 const Styleguide: React.FC = () => {
-  const { theme } = useTheme();
+
 
   return (
     // These classes apply the theme's background and text color to the whole page
     <div className="bg-background text-foreground min-h-screen">
-       <header className="p-4 border-b border-border text-center">
-        Bodewell App Starter - Style Guide (Current Theme: <span className="text-primary">{theme}</span>)
-      </header>
       <main className="p-4 sm:p-6 lg:p-">
-        <PageHeader
-          title="Bodewell UI Style Guide"
-          description="An interactive showcase for all UI components and patterns available in the Bodewell starter kit."
-        />
         <div className="flex flex-col md:flex-row gap-12 mt-8">
-          <aside className="w-full md:w-56 md:sticky top-8 self-start">
+          <aside className="w-full pl-8 md:w-44 md:sticky top-20 self-start">
             <LocalSideNav navItems={navItems} />
           </aside>
           <main className="flex-1">

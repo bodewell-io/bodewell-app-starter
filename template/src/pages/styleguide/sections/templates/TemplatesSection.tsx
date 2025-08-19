@@ -58,7 +58,7 @@ const TemplatesSection: React.FC = () => {
                 {/* Main Content Area */}
                 <main className="lg:col-span-2 space-y-6">
                     <SectionHeader title="Main Content" />
-                    <Card>
+                    <Card className="p-6">
                         <p className="text-text">This is the primary content area. On large screens, it takes up two-thirds of the available space.</p>
                     </Card>
                 </main>
@@ -66,7 +66,7 @@ const TemplatesSection: React.FC = () => {
                 {/* Sidebar */}
                 <aside className="space-y-6">
                     <SectionHeader title="Sidebar" />
-                    <Card>
+                    <Card className="p-6">
                         <h4 className="font-semibold text-text mb-2">Metadata</h4>
                         <p className="text-muted-foreground text-sm">This sidebar stacks below the main content on smaller screens.</p>
                     </Card>

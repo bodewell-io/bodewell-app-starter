@@ -72,9 +72,9 @@ const LayoutSection: React.FC = () => {
           The Card is a flexible container. Use props to override default theme styles for background, border, padding, and shadow.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card><h4 className="font-semibold text-lg mb-2 text-text">Default Card</h4><p className="text-text-light">This card uses theme defaults.</p></Card>
-          <Card shadow="shadow-xl"><h4 className="font-semibold text-lg mb-2 text-text">Shadow Override</h4><p className="text-text-light">This card has a large `shadow-xl`.</p></Card>
-          <Card background="bg-primary/10" border="border-2 border-primary/50"><h4 className="font-semibold text-lg mb-2 text-primary">Style Override</h4><p className="text-primary/80">Custom background and a thicker, colored border.</p></Card>
+          <Card className="p-6"><h4 className="font-semibold text-lg mb-2 text-text">Default Card</h4><p className="text-text-light">This card uses theme defaults.</p></Card>
+          <Card className="p-6" shadow="shadow-xl"><h4 className="font-semibold text-lg mb-2 text-text">Shadow Override</h4><p className="text-text-light">This card has a large `shadow-xl`.</p></Card>
+          <Card className="p-6" background="bg-primary/30" border="border-2 border-primary/50"><h4 className="font-semibold text-lg mb-2 text-primary">Style Override</h4><p className="text-primary/80">Custom background and a thicker, colored border.</p></Card>
         </div>
       </Card>
 

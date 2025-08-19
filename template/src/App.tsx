@@ -1,8 +1,9 @@
 // src/App.tsx
 import { Routes, Route, Navigate } from 'react-router-dom';
+import DefaultLayout from './components/DefaultLayout';
 import Styleguide from './pages/styleguide/Styleguide';
-
-// Import all the section components
+import Dashboard from './pages/Dashboard'; // <-- Import Dashboard
+import DataGridPage from './pages/DataGridPage';
 import ColorsSection from './pages/styleguide/sections/colors/ColorsSection';
 import LayoutSection from './pages/styleguide/sections/layout/LayoutSection';
 import TemplatesSection from './pages/styleguide/sections/templates/TemplatesSection';
@@ -19,26 +20,29 @@ import NotFound from './pages/styleguide/NotFound';
 function App() {
   return (
     <Routes>
-      {/* The Styleguide now acts as the layout for all nested routes */}
-      <Route path="/" element={<Styleguide />}>
-        {/* The index route now correctly redirects to the relative 'colors' path */}
-        <Route index element={<Navigate to="colors" replace />} />
+      <Route path="/" element={<DefaultLayout />}>
+        {/* Add the Dashboard route */}
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="data-grid" element={<DataGridPage />} />
 
-        {/* All section routes are defined as children */}
-        <Route path="utilities" element={<UtilitiesSection />} />
-        <Route path="colors" element={<ColorsSection />} />
-        <Route path="layout" element={<LayoutSection />} />
-        <Route path="templates" element={<TemplatesSection />} />
-        <Route path="elements" element={<ElementsSection />} />
-        <Route path="forms" element={<FormsSection />} />
-        <Route path="navigation" element={<NavigationSection />} />
-        <Route path="tables" element={<TablesSection />} />
-        <Route path="charts" element={<ChartsSection />} />
-        <Route path="feedback" element={<FeedbackSection />} />
-        <Route path="icons" element={<IconsSection />} />
+        <Route path="styleguide" element={<Styleguide />}>
+          <Route index element={<Navigate to="colors" replace />} />
+          <Route path="colors" element={<ColorsSection />} />
+          <Route path="layout" element={<LayoutSection />} />
+          <Route path="templates" element={<TemplatesSection />} />
+          <Route path="elements" element={<ElementsSection />} />
+          <Route path="forms" element={<FormsSection />} />
+          <Route path="navigation" element={<NavigationSection />} />
+          <Route path="tables" element={<TablesSection />} />
+          <Route path="charts" element={<ChartsSection />} />
+          <Route path="feedback" element={<FeedbackSection />} />
+          <Route path="icons" element={<IconsSection />} />
+          <Route path="utilities" element={<UtilitiesSection />} />
+        </Route>
+
+        <Route index element={<Navigate to="/dashboard" replace />} />
       </Route>
 
-      {/* A catch-all route for any path that doesn't match */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
