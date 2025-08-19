@@ -1,6 +1,6 @@
 {
   "name": "create-bodewell-app",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "type": "module",
   "bin": "./index.js",
   "files": [
