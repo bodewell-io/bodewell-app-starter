@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@bodewell/ui':
-        specifier: ^0.2.7
-        version: 0.2.7(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.17)
+        specifier: ^0.3.7
+        version: 0.3.7(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.17)
       fs-extra:
         specifier: ^11.3.1
         version: 11.3.1
@@ -152,8 +152,8 @@ packages:
     resolution: {integrity: sha512-ruv7Ae4J5dUYULmeXw1gmb7rYRz57OWCPM57pHojnLq/3Z1CK2lNSLTCVjxVk1F/TZHwOZZrOWi0ur95BbLxNQ==}
     engines: {node: '>=6.9.0'}
 
-  '@bodewell/ui@0.2.7':
-    resolution: {integrity: sha512-HXnlSaxmZVuiM9J+q5GeAeWa8gBO2fB0o7F/ptp8onNxEntSiuJcjYe3SI51g+6Tle0YdZ1+FIC2vOWLdFk4yg==}
+  '@bodewell/ui@0.3.7':
+    resolution: {integrity: sha512-C22nYJULCxgnA7fmwvch8TEIR0d1EFMZfcXuyKfwLCsRGWi7J7UfesJIJbp+AmUv6FTUC04c2+EYMY/KWEaNHg==}
     peerDependencies:
       react: '>=18.2.0'
       react-dom: '>=18.2.0'
@@ -1579,11 +1579,13 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
 
-  '@bodewell/ui@0.2.7(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.17)':
+  '@bodewell/ui@0.3.7(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.17)':
     dependencies:
       '@tippyjs/react': 4.2.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       ag-grid-community: 31.3.4
       ag-grid-react: 31.3.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      clsx: 2.1.1
+      date-fns: 3.6.0
       lucide-react: 0.537.0(react@18.3.1)
       react: 18.3.1
       react-datepicker: 7.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1591,7 +1593,6 @@ snapshots:
       react-router-dom: 6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-select: 5.10.2(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       recharts: 2.15.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      sass: 1.90.0
       tailwindcss: 3.4.17
       tippy.js: 6.3.7
     transitivePeerDependencies:
@@ -2091,6 +2092,7 @@ snapshots:
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.1.2
+    optional: true
 
   clsx@2.1.1: {}
 
@@ -2293,7 +2295,8 @@ snapshots:
     dependencies:
       react-is: 16.13.1
 
-  immutable@5.1.3: {}
+  immutable@5.1.3:
+    optional: true
 
   import-fresh@3.3.1:
     dependencies:
@@ -2559,7 +2562,8 @@ snapshots:
     dependencies:
       picomatch: 2.3.1
 
-  readdirp@4.1.2: {}
+  readdirp@4.1.2:
+    optional: true
 
   recharts-scale@0.4.5:
     dependencies:
@@ -2625,6 +2629,7 @@ snapshots:
       source-map-js: 1.2.1
     optionalDependencies:
       '@parcel/watcher': 2.5.1
+    optional: true
 
   scheduler@0.23.2:
     dependencies:
