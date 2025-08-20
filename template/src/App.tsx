@@ -4,6 +4,8 @@ import DefaultLayout from './components/DefaultLayout';
 import Styleguide from './pages/styleguide/Styleguide';
 import Dashboard from './pages/Dashboard'; // <-- Import Dashboard
 import DataGridPage from './pages/DataGridPage';
+import AiChat from './pages/AiChat';
+
 import ColorsSection from './pages/styleguide/sections/colors/ColorsSection';
 import LayoutSection from './pages/styleguide/sections/layout/LayoutSection';
 import TemplatesSection from './pages/styleguide/sections/templates/TemplatesSection';
@@ -24,6 +26,7 @@ function App() {
         {/* Add the Dashboard route */}
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="data-grid" element={<DataGridPage />} />
+        <Route path="ai-chat" element={<AiChat />} /> 
 
         <Route path="styleguide" element={<Styleguide />}>
           <Route index element={<Navigate to="colors" replace />} />

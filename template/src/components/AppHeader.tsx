@@ -27,6 +27,7 @@ const AppHeader: React.FC = () => {
             <NavLink to="/dashboard" className={navLinkClasses}>Dashboard</NavLink>
             <NavLink to="/data-grid" className={navLinkClasses}>Data Grid</NavLink> {/* <-- Add this line */}
             <NavLink to="/styleguide" className={navLinkClasses}>Style Guide</NavLink>
+            <NavLink to="/ai-chat" className={navLinkClasses}>AI Chat</NavLink> 
         </nav>
       </div>
 
