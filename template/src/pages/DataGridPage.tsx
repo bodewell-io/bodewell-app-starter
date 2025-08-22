@@ -1,117 +1,173 @@
-// src/pages/DataGridPage.tsx
 import React, { useState, useMemo, useCallback } from 'react';
 import {
-  Button,
-  Card,
-  DataTable,
-  Input,
   PageHeader,
-  useDataFetch,
+  DataTable,
+  Button,
+  Icon,
+  Drawer,
+  FormTemplate,
+  useToast,
+  Badge,
   type ColDef,
+  type FormField,
   type ICellRendererParams,
-  type IRowNode,
 } from '@bodewell/ui';
-import { mockTableData } from '../data/mockData';
+import { useCrudLocalStorage } from '../hooks/useCrudLocalStorage';
+import { mockUsers, type User } from '../data/mockUsers';
 
-// Custom Cell Renderer Example
-const ElectricCarRenderer: React.FC<ICellRendererParams> = (props) => {
-  return <span>{props.value ? '⚡ Electric' : '⛽ Gasoline'}</span>;
+// --- Custom Cell Renderer for the Actions column ---
+const ActionsRenderer: React.FC<ICellRendererParams & { onEdit: (data: User) => void; onDelete: (data: User) => void; }> = ({ data, onEdit, onDelete }) => (
+  <div className="flex items-center justify-center gap-2 h-full">
+    <Button size="sm" variant="outline" onClick={() => onEdit(data)} aria-label="Edit">
+      <Icon name="edit" className="h-4 w-4" />
+    </Button>
+    <Button size="sm" variant="danger" onClick={() => onDelete(data)} aria-label="Delete">
+      <Icon name="trash-2" className="h-4 w-4" />
+    </Button>
+  </div>
+);
+
+// --- Define specific props for the StatusRenderer ---
+interface StatusRendererProps extends ICellRendererParams {
+  value: User['status']; // Use the specific status type from our User interface
+}
+
+// --- Custom Cell Renderer for the Status column ---
+const StatusRenderer: React.FC<StatusRendererProps> = ({ value }) => {
+    // This mapping object tells TypeScript what keys to expect
+    const variantMap: Record<User['status'], 'success' | 'warning' | 'danger'> = {
+        Active: 'success',
+        Pending: 'warning',
+        Banned: 'danger',
+    };
+    const variant = variantMap[value] || 'secondary';
+    return <Badge variant={variant}>{value}</Badge>;
 };
 
 const DataGridPage: React.FC = () => {
-  const { data: fetchedTableData, loading: tableLoading, error: tableError, fetchData } = useDataFetch(null, mockTableData);
-  const [filterText, setFilterText] = useState<string>('');
-  const [gridApi, setGridApi] = useState<any>(null);
+  const { addToast } = useToast();
+  const { data: users, createItem, updateItem, deleteItem } = useCrudLocalStorage<User>('users', mockUsers);
 
-  const onGridReady = useCallback((params: any) => {
-    setGridApi(params.api);
-  }, []);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
 
-  const onFilterTextBoxChanged = useCallback(() => {
-    gridApi?.setQuickFilter(filterText);
-  }, [filterText, gridApi]);
+  const handleOpenDrawer = (user: User | null = null) => {
+    setEditingUser(user);
+    setIsDrawerOpen(true);
+  };
 
-  const columnDefs: ColDef[] = useMemo(() => [
+  const handleDelete = (user: User) => {
+    if (window.confirm(`Are you sure you want to delete ${user.name}?`)) {
+      deleteItem(user.id);
+      addToast('User deleted successfully', 'success');
+    }
+  };
+
+  const handleFormSubmit = (formData: Record<string, any>) => {
+    if (editingUser) {
+      updateItem({ ...editingUser, ...formData });
+      addToast('User updated successfully', 'success');
+    } else {
+      const newUser: Omit<User, 'id' | 'createdAt'> = {
+        ...formData,
+      } as Omit<User, 'id' | 'createdAt'>;
+      createItem({ ...newUser, createdAt: new Date().toISOString() });
+      addToast('User created successfully', 'success');
+    }
+    setIsDrawerOpen(false);
+    setEditingUser(null);
+  };
+
+  const columnDefs = useMemo<ColDef[]>(() => [
+    { field: 'id', headerName: 'ID', width: 80, sortable: true },
+    { field: 'name', headerName: 'Name', flex: 2, sortable: true, filter: 'agTextColumnFilter' },
+    { field: 'email', headerName: 'Email', flex: 3, sortable: true, filter: 'agTextColumnFilter' },
+    { field: 'role', headerName: 'Role', flex: 1, filter: 'agTextColumnFilter' },
+    { 
+        field: 'status', 
+        headerName: 'Status', 
+        flex: 1,
+        cellRenderer: StatusRenderer,
+        filter: 'agTextColumnFilter'
+    },
     {
-      field: 'make',
-      headerName: 'Manufacturer',
+      field: 'createdAt',
+      headerName: 'Created At',
+      flex: 2,
       sortable: true,
-      filter: true,
-      floatingFilter: true,
-      checkboxSelection: true,
-      headerCheckboxSelection: true,
-      minWidth: 150,
+      filter: 'agDateColumnFilter',
+      filterParams: {
+        comparator: (filterLocalDateAtMidnight: Date, cellValue: string) => {
+          if (cellValue == null) return -1;
+          const cellDate = new Date(cellValue);
+          cellDate.setHours(0,0,0,0);
+          if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) return 0;
+          return cellDate < filterLocalDateAtMidnight ? -1 : 1;
+        },
+      },
+      valueFormatter: params => new Date(params.value).toLocaleDateString(),
     },
     {
-      field: 'model',
-      headerName: 'Model Name',
-      sortable: true,
-      filter: true,
-      floatingFilter: true,
-      minWidth: 150,
+      headerName: 'Actions',
+      width: 120,
+      pinned: 'right',
+      cellRenderer: (props: ICellRendererParams) => (
+        <ActionsRenderer {...props} onEdit={handleOpenDrawer} onDelete={handleDelete} />
+      ),
     },
-    {
-      field: 'price',
-      headerName: 'Price ($)',
-      sortable: true,
-      filter: 'agNumberColumnFilter',
-      floatingFilter: true,
-      valueFormatter: p => '$' + p.value.toLocaleString(),
-      minWidth: 120,
-    },
-    {
-      field: 'electric',
-      headerName: 'Type',
-      cellRenderer: ElectricCarRenderer,
-      minWidth: 120,
-    },
-  ], []);
+  ], [handleDelete]);
 
-  const getSelectedRows = useCallback(() => {
-    const selectedNodes: IRowNode[] = gridApi?.getSelectedNodes() || [];
-    const selectedData = selectedNodes.map(node => node.data);
-    alert(`Selected Rows: \n${JSON.stringify(selectedData, null, 2)}`);
-  }, [gridApi]);
+  const formFields: FormField[] = useMemo(() => [
+    { name: 'name', label: 'Full Name', type: 'text', placeholder: 'Jane Doe', required: true, value: editingUser?.name },
+    { name: 'email', label: 'Email Address', type: 'email', placeholder: 'jane.doe@example.com', required: true, value: editingUser?.email },
+    { name: 'username', label: 'Username', type: 'text', placeholder: 'jane.doe', required: true, value: editingUser?.username },
+    { 
+        name: 'role', 
+        label: 'Role', 
+        type: 'select', 
+        options: [{value: 'Admin', label: 'Admin'}, {value: 'Editor', label: 'Editor'}, {value: 'Viewer', label: 'Viewer'}],
+        value: editingUser?.role 
+    },
+    { 
+        name: 'status', 
+        label: 'Status', 
+        type: 'select', 
+        options: [{value: 'Active', label: 'Active'}, {value: 'Pending', label: 'Pending'}, {value: 'Banned', label: 'Banned'}],
+        value: editingUser?.status 
+    },
+  ], [editingUser]);
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-8">
+    <div className="space-y-8">
       <PageHeader
-        title="Data Grid Showcase"
-        description="An advanced example of the AG Grid component with filtering and selection."
+        title="User Management"
+        description="A complete CRUD example with advanced filtering, persisted data, and an edit-in-drawer pattern."
+        actions={
+          <Button variant="primary" iconBefore={<Icon name="plus" />} onClick={() => handleOpenDrawer()}>
+            Create User
+          </Button>
+        }
+      />
+      
+      <DataTable
+        rowData={users}
+        columnDefs={columnDefs}
+        height="600px"
+        enableQuickSearch
+        rowSelection="multiple"
+        pagination
+        paginationPageSize={10}
       />
 
-      <Card className="p-6">
-        <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
-          <Input
-            type="text"
-            placeholder="Quick Filter (searches all columns)..."
-            value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
-            onKeyUp={onFilterTextBoxChanged}
-            className="flex-1"
-          />
-          <Button onClick={() => fetchData()} variant="secondary">
-            Reload Data
-          </Button>
-          <Button onClick={getSelectedRows} variant="primary">
-            Get Selected Rows
-          </Button>
+      <Drawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} title={editingUser ? 'Edit User' : 'Create New User'} size="lg">
+        <div className="p-4">
+            <FormTemplate
+            fields={formFields}
+            onSubmit={handleFormSubmit}
+            submitButtonText={editingUser ? 'Update User' : 'Create User'}
+            />
         </div>
-
-        {tableLoading && <p className="text-accent">Loading...</p>}
-        {tableError && <p className="text-danger">Error: {tableError}</p>}
-        {fetchedTableData && (
-          <DataTable
-            rowData={fetchedTableData}
-            columnDefs={columnDefs}
-            height="500px"
-            onGridReady={onGridReady}
-            rowSelection="multiple"
-            pagination={true}
-            paginationPageSize={5}
-          />
-        )}
-      </Card>
+      </Drawer>
     </div>
   );
 };

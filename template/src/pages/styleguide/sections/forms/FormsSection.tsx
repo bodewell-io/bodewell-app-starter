@@ -189,13 +189,13 @@ const FormsSection: React.FC = () => {
         </div>
       </Card>
       
-      <div id="form-template" className="p-6 scroll-mt-20">
+      <Card id="form-template" className="p-6 scroll-mt-20">
         <FormTemplate
           title="User Registration Template"
           fields={userProfileFields}
           onSubmit={handleFormSubmit}
         />
-      </div>
+      </Card>
     </div>
   );
 };

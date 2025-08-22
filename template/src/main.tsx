@@ -1,20 +1,23 @@
-// src/main.tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom'; // <-- 1. Import the router
+import { BrowserRouter } from 'react-router-dom';
 import App from './App.tsx';
 import { ThemeProvider, ToastProvider } from '@bodewell/ui';
+import { AuthProvider } from './contexts/AuthContext'; // <-- 1. Import the AuthProvider
 import '@bodewell/ui/style.css';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <ToastProvider>
-        <BrowserRouter> {/* <-- 2. Wrap the App component */}
-          <App />
-        </BrowserRouter>
-      </ToastProvider>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider>
+        <ToastProvider>
+          {/* 2. Wrap the entire App component with the AuthProvider */}
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </ToastProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   </React.StrictMode>,
 );

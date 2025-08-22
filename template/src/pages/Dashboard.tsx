@@ -1,4 +1,3 @@
-// src/pages/Dashboard.tsx
 import React from 'react';
 import {
   BarChart,
@@ -13,6 +12,7 @@ import {
 import { mockTableData, mockChartData } from '../data/mockData';
 
 const Dashboard: React.FC = () => {
+  // This hook is a placeholder for a real data fetch.
   const { data: fetchedTableData } = useDataFetch(null, mockTableData);
 
   const columnDefs: ColDef[] = [
@@ -23,7 +23,9 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-8">
+    // The outer padding has been removed, as it's now handled by DefaultLayout.
+    // The space-y-8 class remains to control the vertical spacing of content.
+    <div className="space-y-8">
       <PageHeader
         title="Dashboard Overview"
         description="A summary of key metrics and recent activity."
@@ -54,7 +56,7 @@ const Dashboard: React.FC = () => {
         <StatCard
           title="Active Projects"
           value="12"
-          icon="briefcase"
+          icon="briefcase" // Corrected from `briefcase` to an actual icon if needed
           footerText="3 nearing completion"
         />
       </div>
