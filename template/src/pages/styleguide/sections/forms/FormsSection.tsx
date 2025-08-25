@@ -70,8 +70,8 @@ const FormsSection: React.FC = () => {
   };
 
   const userProfileFields: FormField[] = [
-    { name: 'fullName', label: 'Full Name', type: 'text', placeholder: 'John Doe' },
-    { name: 'email', label: 'Email Address', type: 'email', placeholder: 'john.doe@example.com' },
+    { name: 'fullName', label: 'Full Name', type: 'text', placeholder: 'John Doe', colSpan: 2 },
+    { name: 'email', label: 'Email Address', type: 'email', placeholder: 'john.doe@example.com', colSpan: 2 },
     {
       name: 'country',
       label: 'Country',
@@ -190,11 +190,15 @@ const FormsSection: React.FC = () => {
       </Card>
       
       <Card id="form-template" className="p-6 scroll-mt-20">
+        <SectionHeader title="User Registration Template" className="mb-6" />
         <FormTemplate
-          title="User Registration Template"
           fields={userProfileFields}
           onSubmit={handleFormSubmit}
-        />
+        >
+          <div className="flex justify-end">
+            <Button type="submit" variant="primary">Register</Button>
+          </div>
+        </FormTemplate>
       </Card>
     </div>
   );

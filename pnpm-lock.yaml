@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@bodewell/ui':
-        specifier: ^0.3.7
-        version: 0.3.7(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.17)
+        specifier: ^
+        version: 0.4.1(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.17)
       framer-motion:
         specifier: ^12.23.12
         version: 12.23.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -158,7 +158,7 @@ packages:
     resolution: {integrity: sha512-ruv7Ae4J5dUYULmeXw1gmb7rYRz57OWCPM57pHojnLq/3Z1CK2lNSLTCVjxVk1F/TZHwOZZrOWi0ur95BbLxNQ==}
     engines: {node: '>=6.9.0'}
 
-  '@bodewell/ui@0.3.7':
+  '@bodewell/ui@0.4.1':
     resolution: {integrity: sha512-C22nYJULCxgnA7fmwvch8TEIR0d1EFMZfcXuyKfwLCsRGWi7J7UfesJIJbp+AmUv6FTUC04c2+EYMY/KWEaNHg==}
     peerDependencies:
       react: '>=18.2.0'
@@ -1614,7 +1614,7 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
 
-  '@bodewell/ui@0.3.7(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.17)':
+  '@bodewell/ui@0.4.1(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.17)':
     dependencies:
       '@tippyjs/react': 4.2.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       ag-grid-community: 31.3.4

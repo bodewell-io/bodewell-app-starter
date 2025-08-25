@@ -27,8 +27,8 @@ const LoginPage: React.FC = () => {
   };
 
   const formFields: FormField[] = [
-    { name: 'username', label: 'Username', type: 'text', placeholder: 'e.g., jane', required: true },
-    { name: 'password', label: 'Password', type: 'password', placeholder: 'e.g., password', required: true },
+    { name: 'username', label: 'Username', type: 'text', placeholder: 'e.g., jane' },
+    { name: 'password', label: 'Password', type: 'password', placeholder: 'e.g., password' },
   ];
 
   return (
@@ -45,9 +45,11 @@ const LoginPage: React.FC = () => {
         <FormTemplate
           fields={formFields}
           onSubmit={handleLogin}
-          submitButtonText="Sign In"
-          submitButtonProps={{ loading: isLoading, className: 'w-full' }}
-        />
+        >
+          <Button type="submit" loading={isLoading} className="w-full">
+            Sign In
+          </Button>
+        </FormTemplate>
       </Card>
     </div>
   );
