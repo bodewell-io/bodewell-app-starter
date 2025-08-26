@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
-  PageHeader,
+  PageHeader, // <-- Add PageHeader back
   DataTable,
   Button,
   Icon,
@@ -15,7 +15,7 @@ import {
 import { useCrudLocalStorage } from '../hooks/useCrudLocalStorage';
 import { mockUsers, type User } from '../data/mockUsers';
 
-// --- Custom Cell Renderer for the Actions column ---
+// --- Custom Cell Renderers (No changes needed here) ---
 const ActionsRenderer: React.FC<ICellRendererParams & { onEdit: (data: User) => void; onDelete: (data: User) => void; }> = ({ data, onEdit, onDelete }) => (
   <div className="flex items-center justify-center gap-2 h-full">
     <Button size="sm" variant="outline" onClick={() => onEdit(data)} aria-label="Edit">
@@ -26,15 +26,10 @@ const ActionsRenderer: React.FC<ICellRendererParams & { onEdit: (data: User) => 
     </Button>
   </div>
 );
-
-// --- Define specific props for the StatusRenderer ---
 interface StatusRendererProps extends ICellRendererParams {
-  value: User['status']; // Use the specific status type from our User interface
+  value: User['status'];
 }
-
-// --- Custom Cell Renderer for the Status column ---
 const StatusRenderer: React.FC<StatusRendererProps> = ({ value }) => {
-    // This mapping object tells TypeScript what keys to expect
     const variantMap: Record<User['status'], 'success' | 'warning' | 'danger'> = {
         Active: 'success',
         Pending: 'warning',
@@ -43,6 +38,7 @@ const StatusRenderer: React.FC<StatusRendererProps> = ({ value }) => {
     const variant = variantMap[value] || 'secondary';
     return <Badge variant={variant}>{value}</Badge>;
 };
+
 
 const DataGridPage: React.FC = () => {
   const { addToast } = useToast();
@@ -56,6 +52,7 @@ const DataGridPage: React.FC = () => {
     setIsDrawerOpen(true);
   };
 
+  // ... (handleDelete and handleFormSubmit functions remain the same)
   const handleDelete = (user: User) => {
     if (window.confirm(`Are you sure you want to delete ${user.name}?`)) {
       deleteItem(user.id);
@@ -78,7 +75,8 @@ const DataGridPage: React.FC = () => {
     setEditingUser(null);
   };
 
-  const columnDefs = useMemo<ColDef[]>(() => [
+  // ... (columnDefs and formFields definitions remain the same)
+    const columnDefs = useMemo<ColDef[]>(() => [
     { field: 'id', headerName: 'ID', width: 80, sortable: true },
     { field: 'name', headerName: 'Name', flex: 2, sortable: true, filter: 'agTextColumnFilter' },
     { field: 'email', headerName: 'Email', flex: 3, sortable: true, filter: 'agTextColumnFilter' },
@@ -138,10 +136,10 @@ const DataGridPage: React.FC = () => {
   ], [editingUser]);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <PageHeader
         title="User Management"
-        description="A complete CRUD example with advanced filtering, persisted data, and an edit-in-drawer pattern."
+        description="A complete CRUD example with persisted data and an edit-in-drawer pattern."
         actions={
           <Button variant="primary" iconBefore={<Icon name="plus" />} onClick={() => handleOpenDrawer()}>
             Create User
@@ -152,7 +150,7 @@ const DataGridPage: React.FC = () => {
       <DataTable
         rowData={users}
         columnDefs={columnDefs}
-        height="600px"
+        height="calc(100vh - 280px)"
         enableQuickSearch
         rowSelection="multiple"
         pagination
@@ -160,12 +158,16 @@ const DataGridPage: React.FC = () => {
       />
 
       <Drawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} title={editingUser ? 'Edit User' : 'Create New User'} size="lg">
-        <div className="p-4">
+        <div className="p-6">
             <FormTemplate
-            fields={formFields}
-            onSubmit={handleFormSubmit}
-            submitButtonText={editingUser ? 'Update User' : 'Create User'}
-            />
+              fields={formFields}
+              onSubmit={handleFormSubmit}
+            >
+              <div className="flex justify-end gap-2 mt-8">
+                <Button variant="outline" onClick={() => setIsDrawerOpen(false)}>Cancel</Button>
+                <Button type="submit">{editingUser ? 'Update User' : 'Create User'}</Button>
+              </div>
+            </FormTemplate>
         </div>
       </Drawer>
     </div>

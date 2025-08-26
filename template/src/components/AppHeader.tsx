@@ -18,7 +18,6 @@ const AppHeader: React.FC = () => {
   const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
     `text-lg font-medium transition-colors ${isActive ? 'text-primary' : 'text-text hover:text-primary'}`;
 
-  // Function to clear user data from localStorage and reload the page
   const handleResetData = () => {
     if (window.confirm('Are you sure you want to reset all user data to the original mock data? This cannot be undone.')) {
       localStorage.removeItem('users');
@@ -35,7 +34,7 @@ const AppHeader: React.FC = () => {
         </div>
         <nav className="hidden md:flex items-center gap-6">
             <NavLink to="/dashboard" className={navLinkClasses}>Dashboard</NavLink>
-            <NavLink to="/data-grid" className={navLinkClasses}>Data Grid</NavLink>
+            <NavLink to="/data/grid" className={navLinkClasses}>Data</NavLink>
             <NavLink to="/styleguide" className={navLinkClasses}>Style Guide</NavLink>
             <NavLink to="/ai-chat" className={navLinkClasses}>AI Chat</NavLink>
         </nav>
@@ -66,11 +65,9 @@ const AppHeader: React.FC = () => {
             </MenuItem>
           ))}
           <MenuDivider />
-          {/* --- NEW: Reset Data Button --- */}
           <MenuItem onClick={handleResetData} icon={<Icon name="refresh-cw" />}>
             Reset Data
           </MenuItem>
-          {/* --- Logout Button --- */}
           <MenuItem onClick={logout} icon={<Icon name="log-out" />}>
             Logout
           </MenuItem>

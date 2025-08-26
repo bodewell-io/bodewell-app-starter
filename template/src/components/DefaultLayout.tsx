@@ -5,27 +5,31 @@ import AppFooter from './AppFooter';
 
 const DefaultLayout: React.FC = () => {
   const location = useLocation();
-  const isStyleguide = location.pathname.startsWith('/styleguide');
+
+  // Define all routes that use a sidebar layout
+  const sideNavRoutes = ['/styleguide', '/data'];
+
+  // Check if the current path matches any of our sidebar routes
+  const hasSideNav = sideNavRoutes.some(path => location.pathname.startsWith(path));
 
   return (
-    // The outer container no longer uses flexbox or a fixed height.
     <div className="bg-background text-foreground min-h-screen">
       <AppHeader />
 
-      {/* The <main> tag is now a standard block element. */}
       <main>
-        {isStyleguide ? (
-          // The Styleguide gets rendered directly to control its own layout.
+        {hasSideNav ? (
+          // Any route with a sidebar gets the full-width treatment
           <Outlet />
         ) : (
-          // All other pages get a clean, centered, max-width container.
+          // All other pages get the clean, centered container
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Outlet />
           </div>
         )}
       </main>
       
-      {!isStyleguide && <AppFooter />}
+      {/* The footer is now hidden on ANY page with a sidebar */}
+      {!hasSideNav && <AppFooter />}
     </div>
   );
 };

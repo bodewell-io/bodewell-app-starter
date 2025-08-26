@@ -1,4 +1,4 @@
-import { type NavItem } from './LocalSideNav';
+import { type NavItem } from '../../components/LocalSideNav';
 
 // A helper function to create children with consistent hash links
 const createChildren = (parentHref: string, children: { label: string; id: string }[]) => {
@@ -11,67 +11,12 @@ const createChildren = (parentHref: string, children: { label: string; id: strin
 // Define the core structure of our style guide sections
 const sections = [
   { 
-    label: 'Charts', 
-    href: 'charts', 
-    icon: 'bar-chart-2',
-    children: createChildren('charts', [
-      { label: 'Bar Chart', id: 'charts-bar' },
-      { label: 'Line Chart', id: 'charts-line' },
-      { label: 'Pie Chart', id: 'charts-pie' },
-    ]),
-  },
-  { 
-    label: 'Colors', 
-    href: 'colors', 
-    icon: 'palette',
-    children: createChildren('colors', [
-      { label: 'Themed Palette', id: 'colors-theme' },
-      { label: 'Tailwind Palette', id: 'colors-tailwind' },
-    ]),
-  },
-  {
-    label: 'Elements',
-    href: 'elements',
-    icon: 'box',
-    children: createChildren('elements', [
-      { label: 'Avatars', id: 'elements-avatars' },
-      { label: 'Badges', id: 'elements-badges' },
-      { label: 'Stat Cards', id: 'elements-stats' },
-      { label: 'Activity Feed', id: 'elements-activity' },
-      { label: 'Toggles', id: 'elements-toggle' },
-    ]),
-  },
-  {
-    label: 'Feedback',
-    href: 'feedback',
-    icon: 'message-square',
-    children: createChildren('feedback', [
-      { label: 'Alerts', id: 'feedback-alerts' },
-      { label: 'Tooltips', id: 'feedback-tooltip' },
-      { label: 'Toasts', id: 'feedback-toast' },
-      { label: 'Empty States', id: 'feedback-empty' },
-    ]),
-  },
-  {
-    label: 'Forms',
-    href: 'forms',
-    icon: 'check-square',
-    children: createChildren('forms', [
-      { label: 'Buttons', id: 'form-buttons' },
-      { label: 'Inputs', id: 'form-inputs' },
-      { label: 'Selection', id: 'form-select' },
-      { label: 'Advanced', id: 'form-advanced' },
-      { label: 'File Upload', id: 'form-upload' },
-      { label: 'Template', id: 'form-template' },
-    ]),
-  },
-  { 
-    label: 'Icons', 
-    href: 'icons', 
-    icon: 'sparkles',
-    children: createChildren('icons', [
-      { label: 'Usage', id: 'icons-usage' },
-      { label: 'Gallery', id: 'icons-gallery' },
+    label: 'Templates', 
+    href: 'templates', 
+    icon: 'layout-grid',
+    children: createChildren('templates', [
+      { label: 'Standard Page', id: 'template-standard' },
+      { label: 'Responsive Columns', id: 'template-responsive' },
     ]),
   },
   { 
@@ -107,13 +52,51 @@ const sections = [
       { label: 'Data Grid', id: 'tables-aggrid' },
     ]),
   },
-  { 
-    label: 'Templates', 
-    href: 'templates', 
-    icon: 'layout-grid',
-    children: createChildren('templates', [
-      { label: 'Standard Page', id: 'template-standard' },
-      { label: 'Responsive Columns', id: 'template-responsive' },
+
+    { 
+    label: 'Charts', 
+    href: 'charts', 
+    icon: 'bar-chart-2',
+    children: createChildren('charts', [
+      { label: 'Bar Chart', id: 'charts-bar' },
+      { label: 'Line Chart', id: 'charts-line' },
+      { label: 'Pie Chart', id: 'charts-pie' },
+    ]),
+  },
+  {
+    label: 'Elements',
+    href: 'elements',
+    icon: 'box',
+    children: createChildren('elements', [
+      { label: 'Avatars', id: 'elements-avatars' },
+      { label: 'Badges', id: 'elements-badges' },
+      { label: 'Stat Cards', id: 'elements-stats' },
+      { label: 'Activity Feed', id: 'elements-activity' },
+      { label: 'Toggles', id: 'elements-toggle' },
+    ]),
+  },
+    {
+    label: 'Forms',
+    href: 'forms',
+    icon: 'check-square',
+    children: createChildren('forms', [
+      { label: 'Buttons', id: 'form-buttons' },
+      { label: 'Inputs', id: 'form-inputs' },
+      { label: 'Selection', id: 'form-select' },
+      { label: 'Advanced', id: 'form-advanced' },
+      { label: 'File Upload', id: 'form-upload' },
+      { label: 'Template', id: 'form-template' },
+    ]),
+  },
+  {
+    label: 'Feedback',
+    href: 'feedback',
+    icon: 'message-square',
+    children: createChildren('feedback', [
+      { label: 'Alerts', id: 'feedback-alerts' },
+      { label: 'Tooltips', id: 'feedback-tooltip' },
+      { label: 'Toasts', id: 'feedback-toast' },
+      { label: 'Empty States', id: 'feedback-empty' },
     ]),
   },
   { 
@@ -129,6 +112,29 @@ const sections = [
       { label: 'Shadows', id: 'utilities-shadows' },
     ]),
   },
+  { 
+    label: 'Colors', 
+    href: 'colors', 
+    icon: 'palette',
+    children: createChildren('colors', [
+      { label: 'Themed Palette', id: 'colors-theme' },
+      { label: 'Tailwind Palette', id: 'colors-tailwind' },
+    ]),
+  },
+
+  { 
+    label: 'Icons', 
+    href: 'icons', 
+    icon: 'sparkles',
+    children: createChildren('icons', [
+      { label: 'Usage', id: 'icons-usage' },
+      { label: 'Gallery', id: 'icons-gallery' },
+    ]),
+  },
+  
+
+  
+  
 ];
 
 export const styleguideNavItems: NavItem[] = sections;
