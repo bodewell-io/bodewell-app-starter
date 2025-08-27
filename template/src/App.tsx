@@ -9,10 +9,15 @@ import SideNavLayout from './layouts/SideNavLayout';
 
 // Page Components
 import Dashboard from './pages/Dashboard';
-import DataGridPage from './pages/DataGridPage';
 import AiChat from './pages/AiChat';
 import LoginPage from './pages/LoginPage';
 import NotFound from './pages/styleguide/NotFound';
+
+import DataGridPage from './pages/DataGridPage';
+import AccountingLedgerPage from './pages/AccountingLedgerPage';
+import EnterpriseTestPage from './pages/EnterpriseTestPage';
+import DirectAgGridTestPage from './pages/DirectAgGridTestPage';
+
 
 // Style Guide Root and Config
 import { styleguideNavItems } from './pages/styleguide/styleguide.config';
@@ -33,7 +38,12 @@ import UtilitiesSection from './pages/styleguide/sections/utilities/UtilitiesSec
 // --- Define the nav items for the Data Section ---
 const dataNavItems: NavItem[] = [
   { label: 'Client-Side Grid', href: '/data/grid', icon: 'table' },
+  { label: 'Accounting Ledger', href: '/data/ledger', icon: 'book-open' }, 
+  { label: 'Enterprise Test', href: '/data/enterprise-test', icon: 'test-tube-2' },
+  { label: 'Direct AG Grid Test', href: '/data/direct-test', icon: 'vial' }
 ];
+
+
 
 function App() {
   return (
@@ -58,6 +68,9 @@ function App() {
             }
           >
             <Route path="grid" element={<DataGridPage />} />
+            <Route path="ledger" element={<AccountingLedgerPage />} /> 
+            <Route path="enterprise-test" element={<EnterpriseTestPage />} />
+            <Route path="direct-test" element={<DirectAgGridTestPage />} /> 
           </Route>
 
           {/* Styleguide Section using SideNavLayout */}

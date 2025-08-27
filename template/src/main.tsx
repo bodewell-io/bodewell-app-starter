@@ -7,6 +7,9 @@ import { AuthProvider } from './contexts/AuthContext'; // <-- 1. Import the Auth
 import '@bodewell/ui/style.css';
 import './index.css';
 
+// This import activates all AG Grid Enterprise features
+import 'ag-grid-enterprise';
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
