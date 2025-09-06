@@ -13,11 +13,9 @@ import AiChat from './pages/AiChat';
 import LoginPage from './pages/LoginPage';
 import NotFound from './pages/styleguide/NotFound';
 
+// Data Pages
 import DataGridPage from './pages/DataGridPage';
 import AccountingLedgerPage from './pages/AccountingLedgerPage';
-import EnterpriseTestPage from './pages/EnterpriseTestPage';
-import DirectAgGridTestPage from './pages/DirectAgGridTestPage';
-
 
 // Style Guide Root and Config
 import { styleguideNavItems } from './pages/styleguide/styleguide.config';
@@ -34,16 +32,15 @@ import NavigationSection from './pages/styleguide/sections/navigation/Navigation
 import TablesSection from './pages/styleguide/sections/tables/TablesSection';
 import TemplatesSection from './pages/styleguide/sections/templates/TemplatesSection';
 import UtilitiesSection from './pages/styleguide/sections/utilities/UtilitiesSection';
+import { ThemingSection } from './pages/styleguide/sections/theming/ThemingSection';
+
+
 
 // --- Define the nav items for the Data Section ---
 const dataNavItems: NavItem[] = [
   { label: 'Client-Side Grid', href: '/data/grid', icon: 'table' },
   { label: 'Accounting Ledger', href: '/data/ledger', icon: 'book-open' }, 
-  { label: 'Enterprise Test', href: '/data/enterprise-test', icon: 'test-tube-2' },
-  { label: 'Direct AG Grid Test', href: '/data/direct-test', icon: 'vial' }
 ];
-
-
 
 function App() {
   return (
@@ -62,15 +59,12 @@ function App() {
               <SideNavLayout
                 navItems={dataNavItems}
                 sideNavHeader={<div className="p-4 font-semibold text-lg">Data Section</div>}
-                contentWidth="full"
-                
+                contentWidth="full"      
               />
             }
           >
             <Route path="grid" element={<DataGridPage />} />
-            <Route path="ledger" element={<AccountingLedgerPage />} /> 
-            <Route path="enterprise-test" element={<EnterpriseTestPage />} />
-            <Route path="direct-test" element={<DirectAgGridTestPage />} /> 
+            <Route path="ledger" element={<AccountingLedgerPage />} />   
           </Route>
 
           {/* Styleguide Section using SideNavLayout */}
@@ -81,7 +75,6 @@ function App() {
                 navItems={styleguideNavItems}
                 sideNavHeader={<div className="p-4 font-semibold text-lg">Style Guide</div>}
                 contentWidth="fixed"
-                
               />
             }
           >
@@ -97,6 +90,7 @@ function App() {
             <Route path="tables" element={<TablesSection />} />
             <Route path="templates" element={<TemplatesSection />} />
             <Route path="utilities" element={<UtilitiesSection />} />
+            <Route path="theming" element={<ThemingSection />} />
           </Route>
         </Route>
       </Route>

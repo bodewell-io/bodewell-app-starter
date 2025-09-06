@@ -33,6 +33,16 @@ const sections = [
     ]),
   },
   { 
+    label: 'Theming', 
+    href: 'theming', 
+    icon: 'palette',
+    children: createChildren('theming', [
+      { label: 'How It Works', id: 'how-it-works' },
+      { label: 'Core Variables', id: 'core-variables' },
+      { label: 'Adding Themes', id: 'adding-themes' },
+    ]),
+  },
+  { 
     label: 'Navigation', 
     href: 'navigation', 
     icon: 'navigation',

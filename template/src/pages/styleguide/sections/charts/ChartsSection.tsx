@@ -36,46 +36,42 @@ const ChartsSection: React.FC = () => {
 
       {/* Bar Chart with Table View */}
       <div id="charts-bar" className="scroll-mt-20">
-      <ChartWithTable
-        title="Monthly Revenue"
-        data={mockChartData}
-        tableHeaders={[
-          { key: 'name', label: 'Month' },
-          { key: 'pv', label: 'Page Views' },
-          { key: 'uv', label: 'Unique Visitors' },
-        ]}
-      >
-        <BarChart
+        <ChartWithTable
+          title="Monthly Revenue"
           data={mockChartData}
-          dataKeyX="name"
-          barKeys={[
-            { key: 'pv', color: 'var(--app-primary-color)' },
-            { key: 'uv', color: 'var(--app-secondary-color)' },
+          tableHeaders={[
+            { key: 'name', label: 'Month' },
+            { key: 'pv', label: 'Page Views' },
+            { key: 'uv', label: 'Unique Visitors' },
           ]}
-        />
-      </ChartWithTable>
+        >
+          <BarChart
+            data={mockChartData}
+            dataKeyX="name"
+            // FIX: Pass only the keys as an array of strings
+            barKeys={['pv', 'uv']}
+          />
+        </ChartWithTable>
       </div>
 
       {/* Line Chart with Table View */}
       <div id="charts-line" className="scroll-mt-20">
-      <ChartWithTable
-        title="User Growth"
-        data={mockChartData}
-        tableHeaders={[
+        <ChartWithTable
+          title="User Growth"
+          data={mockChartData}
+          tableHeaders={[
             { key: 'name', label: 'Month' },
             { key: 'uv', label: 'UV' },
             { key: 'pv', label: 'PV' },
-        ]}
-      >
-        <LineChart
-          data={mockChartData}
-          dataKeyX="name"
-          lineKeys={[
-            { key: 'uv', color: 'var(--app-accent-color)' },
-            { key: 'pv', color: 'var(--app-primary-color)' },
           ]}
-        />
-      </ChartWithTable>
+        >
+          <LineChart
+            data={mockChartData}
+            dataKeyX="name"
+            // FIX: Pass only the keys as an array of strings
+            lineKeys={['uv', 'pv']}
+          />
+        </ChartWithTable>
       </div>
 
       {/* Pie Chart with Table View */}

@@ -141,7 +141,12 @@ const DataGridPage: React.FC = () => {
         title="User Management"
         description="A complete CRUD example with persisted data and an edit-in-drawer pattern."
         actions={
-          <Button variant="primary" iconBefore={<Icon name="plus" />} onClick={() => handleOpenDrawer()}>
+          <Button
+            variant="primary"
+            // FIX: Changed from iconBefore to iconLeft and passed the icon name string
+            iconLeft="plus"
+            onClick={() => handleOpenDrawer()}
+          >
             Create User
           </Button>
         }
@@ -155,6 +160,8 @@ const DataGridPage: React.FC = () => {
         rowSelection="multiple"
         pagination
         paginationPageSize={10}
+        // FIX: Add the page size selector to resolve the AG Grid warning
+        paginationPageSizeSelector={[10, 25, 50]}
       />
 
       <Drawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} title={editingUser ? 'Edit User' : 'Create New User'} size="lg">
