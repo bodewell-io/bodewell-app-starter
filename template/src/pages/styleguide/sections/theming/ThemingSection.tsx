@@ -1,76 +1,82 @@
 import React, { useState, useEffect } from 'react';
-import { PageHeader, Card, CodeBlock, Alert, useTheme } from '@bodewell/ui';
+import {
+  SectionHeader,
+  Card,
+  CodeBlock,
+  Alert,
+  useTheme,
+  ButtonGroup,
+  Button,
+  Icon,
+} from '@bodewell/ui';
+import type { ThemeName } from '@bodewell/ui';
 
-// --- HELPER COMPONENTS & DATA ---
+
+// --- HELPER DATA ---
 
 interface ColorInfo {
   name: string;
   variable: string;
-  category: 'Brand' | 'UI' | 'Text & Borders' | 'Form Controls' | 'Component Styles';
-  description: string;
+  category: 'Brand' | 'UI' | 'Text & Borders' | 'Form Controls' | 'Notifications' | 'Charts';
 }
 
+// UPDATED: Added new color definitions
 const colorPaletteData: ColorInfo[] = [
-  // --- BRAND ---
-  { name: 'Primary Action', variable: '--app-primary-color', category: 'Brand', description: 'Main interactive elements.' },
-  { name: 'Primary Content', variable: '--app-primary-foreground-color', category: 'Brand', description: 'Text on primary backgrounds.' },
-  { name: 'Secondary Action', variable: '--app-secondary-color', category: 'Brand', description: 'Secondary interactive elements.' },
-  { name: 'Secondary Content', variable: '--app-secondary-foreground-color', category: 'Brand', description: 'Text on secondary backgrounds.' },
-  { name: 'Accent', variable: '--app-accent-color', category: 'Brand', description: 'For highlighting special actions.' },
-  { name: 'Accent Content', variable: '--app-accent-foreground-color', category: 'Brand', description: 'Text on accent backgrounds.' },
-  { name: 'Danger / Destructive', variable: '--app-danger-color', category: 'Brand', description: 'Destructive actions, errors.' },
-  { name: 'Danger Content', variable: '--app-danger-foreground-color', category: 'Brand', description: 'Text on danger backgrounds.' },
-
-  // --- UI ---
-  { name: 'Page Background', variable: '--app-bg-color', category: 'UI', description: 'The main background for pages.' },
-  { name: 'Card Background', variable: '--app-card-bg-color', category: 'UI', description: 'Background for card-like elements.' },
-  
-  // --- TEXT & BORDERS ---
-  { name: 'Default Text', variable: '--app-text-color', category: 'Text & Borders', description: 'Primary text color.' },
-  { name: 'Border', variable: '--app-border-color', category: 'Text & Borders', description: 'Default border color.' },
-  
-  // --- FORM CONTROLS ---
-  { name: 'Input Background', variable: '--app-input-bg-color', category: 'Form Controls', description: 'Background for text inputs.' },
-  { name: 'Input Text', variable: '--app-input-text-color', category: 'Form Controls', description: 'Text color inside inputs.' },
-  { name: 'Input Border', variable: '--app-input-border-color', category: 'Form Controls', description: 'Default border for inputs.' },
-  { name: 'Input Focus Ring', variable: '--app-input-focus-ring-color', category: 'Form Controls', description: 'Focus outline color.' },
-  { name: 'Input Placeholder', variable: '--app-input-placeholder-color', category: 'Form Controls', description: 'Placeholder text color.' },
-
-  // --- COMPONENT STYLES ---
-  { name: 'Table Header BG', variable: '--app-table-header-bg', category: 'Component Styles', description: 'Background for table headers.' },
-  { name: 'Table Header Text', variable: '--app-table-header-text', category: 'Component Styles', description: 'Text in table headers.' },
-  { name: 'Table Row Hover BG', variable: '--app-table-row-hover-bg', category: 'Component Styles', description: 'Hovered row background.' },
-  { name: 'Chart Grid Color', variable: '--app-chart-grid-color', category: 'Component Styles', description: 'Grid lines in charts.' },
+  { name: 'Primary', variable: '--app-primary-color', category: 'Brand' },
+  { name: 'Primary Content', variable: '--app-primary-foreground-color', category: 'Brand' },
+  { name: 'Secondary', variable: '--app-secondary-color', category: 'Brand' },
+  { name: 'Accent', variable: '--app-accent-color', category: 'Brand' },
+  { name: 'Destructive', variable: '--app-danger-color', category: 'Brand' },
+  { name: 'Page Background', variable: '--app-bg-color', category: 'UI' },
+  { name: 'Card Background', variable: '--app-card-bg-color', category: 'UI' },
+  { name: 'Default Text', variable: '--app-text-color', category: 'Text & Borders' },
+  { name: 'Border', variable: '--app-border-color', category: 'Text & Borders' },
+  { name: 'Input Border', variable: '--app-input-border-color', category: 'Form Controls' },
+  { name: 'Input Focus Ring', variable: '--app-input-focus-ring-color', category: 'Form Controls' },
+  { name: 'Info', variable: '--app-info-color', category: 'Notifications' },
+  { name: 'Info Content', variable: '--app-info-foreground-color', category: 'Notifications' },
+  { name: 'Success', variable: '--app-success-color', category: 'Notifications' },
+  { name: 'Success Content', variable: '--app-success-foreground-color', category: 'Notifications' },
+  { name: 'Warning', variable: '--app-warning-color', category: 'Notifications' },
+  { name: 'Warning Content', variable: '--app-warning-foreground-color', category: 'Notifications' },
+  { name: 'Chart 1', variable: '--app-chart-1', category: 'Charts' },
+  { name: 'Chart 2', variable: '--app-chart-2', category: 'Charts' },
+  { name: 'Chart 3', variable: '--app-chart-3', category: 'Charts' },
+  { name: 'Chart 4', variable: '--app-chart-4', category: 'Charts' },
+  { name: 'Chart 5', variable: '--app-chart-5', category: 'Charts' },
 ];
+
+interface PropertyInfo {
+  name: string;
+  variable: string;
+  category: 'Typography' | 'Shape';
+}
+
+const propertyAuditData: PropertyInfo[] = [
+  { name: 'Sans Serif Font', variable: '--app-font-sans', category: 'Typography' },
+  { name: 'Base Font Size', variable: '--app-font-size-base', category: 'Typography' },
+  { name: 'Radius Small', variable: '--app-border-radius-sm', category: 'Shape' },
+  { name: 'Radius Medium', variable: '--app-border-radius-md', category: 'Shape' },
+  { name: 'Radius Large', variable: '--app-border-radius-lg', category: 'Shape' },
+];
+
+// --- HELPER COMPONENTS ---
 
 const ColorSwatch: React.FC<{ color: ColorInfo; value: string }> = ({ color, value }) => {
   if (!value) {
-    return (
-      <div className="border border-border rounded-md overflow-hidden">
-        <div className="h-24 bg-muted animate-pulse"></div>
-        <div className="p-3 text-sm">
-            <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
-            <div className="h-3 bg-muted rounded w-full"></div>
-        </div>
-      </div>
-    );
+    return <div className="border border-border rounded-lg h-36 bg-background animate-pulse"></div>;
   }
-
   const [r, g, b] = value.split(' ').map(Number);
   const hex = `#${[r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')}`;
-  const isDark = (r * 299 + g * 587 + b * 114) / 1000 < 128;
 
   return (
-    <div className="border border-border rounded-md overflow-hidden">
+    <div className="border border-border rounded-lg overflow-hidden shadow-sm">
       <div className="h-24" style={{ backgroundColor: `rgb(${value})` }}></div>
-      <div className="p-3 text-sm">
-        <p className={`font-bold ${isDark ? 'text-white' : 'text-foreground'}`} style={{color: `rgb(${value})`}}>
-            {color.name}
-        </p>
-        <p className="text-muted-foreground text-xs">{color.description}</p>
-        <div className="mt-2 text-xs font-mono bg-muted p-1 rounded-sm">
+      <div className="p-3 text-sm bg-card">
+        <p className="font-semibold text-foreground">{color.name}</p>
+        <div className="mt-2 text-xs font-mono text-muted-foreground space-y-1">
           <p>var({color.variable})</p>
-          <p>rgb({value})</p>
+          <p>{`rgb(${value})`}</p>
           <p>{hex.toUpperCase()}</p>
         </div>
       </div>
@@ -79,102 +85,182 @@ const ColorSwatch: React.FC<{ color: ColorInfo; value: string }> = ({ color, val
 };
 
 const ColorPalette: React.FC<{ colors: ColorInfo[] }> = ({ colors }) => {
-    const { theme } = useTheme();
-    const [colorValues, setColorValues] = useState<Record<string, string>>({});
-  
-    useEffect(() => {
+  const { theme } = useTheme();
+  const [colorValues, setColorValues] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
       const computedStyle = getComputedStyle(document.documentElement);
       const newValues: Record<string, string> = {};
       colors.forEach(color => {
         newValues[color.variable] = computedStyle.getPropertyValue(color.variable).trim();
       });
       setColorValues(newValues);
-    }, [theme, colors]);
+    }, 50);
 
-    const groupedColors = colors.reduce((acc, color) => {
-        (acc[color.category] = acc[color.category] || []).push(color);
-        return acc;
-    }, {} as Record<string, ColorInfo[]>);
-  
-    return (
-      <div className="space-y-6">
-        {Object.entries(groupedColors).map(([category, colorsInCategory]) => (
-          <div key={category}>
-            <h3 className="text-lg font-semibold mb-2">{category}</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              {colorsInCategory.map(color => (
-                <ColorSwatch key={color.variable} color={color} value={colorValues[color.variable] || ''} />
-              ))}
-            </div>
+    return () => clearTimeout(timer);
+  }, [theme, colors]);
+
+  const groupedColors = colors.reduce((acc, color) => {
+      (acc[color.category] = acc[color.category] || []).push(color);
+      return acc;
+  }, {} as Record<string, ColorInfo[]>);
+
+  return (
+    <div className="space-y-6">
+      {Object.entries(groupedColors).map(([category, colorsInCategory]) => (
+        <div key={category}>
+          <h3 className="text-lg font-semibold mb-3">{category}</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {colorsInCategory.map(color => (
+              <ColorSwatch key={color.variable} color={color} value={colorValues[color.variable] || ''} />
+            ))}
           </div>
-        ))}
-      </div>
-    );
+        </div>
+      ))}
+    </div>
+  );
 };
 
-// --- ADD THIS BACK: CSS Variables for the Code Block ---
-const themeCssVariables = `
-:root, .light {
-  /* Brand */
-  --app-font-sans: 'Inter', sans-serif;
-  --app-primary-color: 13 110 253;
-  /* ... etc. */
-}
-`;
-
-// --- MAIN THEME GUIDE COMPONENT ---
-export const ThemingSection: React.FC = () => {
+const PropertyDisplay: React.FC<{ property: PropertyInfo; value: string }> = ({ property, value }) => {
   return (
-    <div>
-      <PageHeader
-        title="Theming System v2.0"
-        description="A guide to understanding and customizing the complete visual identity of your Bodewell application."
-      />
+    <div className="bg-background border border-border rounded-lg p-4 flex items-center justify-between">
+      <div>
+        <div className="text-sm font-semibold text-foreground">{property.name}</div>
+        <div className="text-xs font-mono text-muted-foreground mt-1">
+          var({property.variable})
+        </div>
+        <div className="text-sm font-mono text-primary mt-2">{value}</div>
+      </div>
+      {property.category === 'Shape' && (
+        <div
+          className="w-16 h-16 bg-primary/20 border-2 border-dashed border-primary/50"
+          style={{ borderRadius: value }}
+        ></div>
+      )}
+      {property.category === 'Typography' && property.variable.includes('font-sans') && (
+        <div className="text-3xl text-primary" style={{ fontFamily: value }}>Aa</div>
+      )}
+    </div>
+  );
+};
+
+const LiveAuditSection: React.FC<{ title: string; data: PropertyInfo[] }> = ({ title, data }) => {
+  const { theme } = useTheme();
+  const [liveValues, setLiveValues] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const computedStyle = getComputedStyle(document.documentElement);
+      const newValues: Record<string, string> = {};
+      data.forEach(prop => {
+        newValues[prop.variable] = computedStyle.getPropertyValue(prop.variable).trim();
+      });
+      setLiveValues(newValues);
+    }, 50);
+    return () => clearTimeout(timer);
+  }, [theme, data]);
+
+  return (
+    <Card className="mb-6 p-6">
+      <h2 className="text-xl font-bold mb-4">{title}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {data.map(prop => (
+          <PropertyDisplay key={prop.variable} property={prop} value={liveValues[prop.variable] || '...'} />
+        ))}
+      </div>
+    </Card>
+  );
+};
+
+// --- MAIN COMPONENT ---
+
+const ThemingSection: React.FC = () => {
+  const { theme, setTheme, availableThemes, borderRadius, setBorderRadius, fontSize, setFontSize } = useTheme();
+
+  const radii = [ { label: 'None', value: '0rem' }, { label: 'Sm', value: '0.25rem' }, { label: 'Md', value: '0.5rem' }, { label: 'Lg', value: '1rem' }];
+  const fontSizes = [ { label: 'Sm', value: '0.875rem' }, { label: 'Base', value: '1rem' }, { label: 'Lg', value: '1.125rem' }];
+  
+  const themeCssVariables = `
+  .dark {
+    /* ... existing variables ... */
+  }
+  `;
+
+  return (
+    <div id="theming">
+      <SectionHeader title="Theming System" />
+      <p className="mt-2 mb-6 text-muted-foreground">
+        An interactive guide to the visual identity of your application.
+      </p>
 
       <Card className="mb-6 p-6">
-        <h2 className="text-xl font-bold mb-2">How It Works</h2>
-        <p className="mb-4">
-          The Bodewell V2 Theming System is a holistic visual identity framework built on CSS Custom Properties (Variables). It allows you to control typography, colors, shape, and even component-specific styles from a single CSS file.
-        </p>
+        <h2 className="text-xl font-bold mb-4">Theme Playground</h2>
+        <div className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium mb-2 text-foreground/80">Color Theme</label>
+            <ButtonGroup>
+              {availableThemes.map((t: ThemeName) => (
+                <Button 
+                  key={t}
+                  variant={theme === t ? 'primary' : 'secondary'}
+                  onClick={() => setTheme(t)}
+                >
+                  {t}
+                </Button>
+              ))}
+            </ButtonGroup>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-2 text-foreground/80">Border Radius</label>
+            <ButtonGroup>
+              {radii.map(r => (
+                <Button
+                  key={r.value}
+                  variant={borderRadius === r.value ? 'primary' : 'secondary'}
+                  onClick={() => setBorderRadius(r.value)}
+                >
+                  {r.label}
+                </Button>
+              ))}
+            </ButtonGroup>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-2 text-foreground/80">Base Font Size</label>
+            <ButtonGroup>
+              {fontSizes.map(fs => (
+                <Button
+                  key={fs.value}
+                  variant={fontSize === fs.value ? 'primary' : 'secondary'}
+                  onClick={() => setFontSize(fs.value)}
+                >
+                  {fs.label}
+                </Button>
+              ))}
+            </ButtonGroup>
+          </div>
+        </div>
       </Card>
 
+      <LiveAuditSection title="Live Typography Audit" data={propertyAuditData.filter(p => p.category === 'Typography')} />
+      <LiveAuditSection title="Live Shape Audit" data={propertyAuditData.filter(p => p.category === 'Shape')} />
+      
       <Card className="mb-6 p-6">
         <h2 className="text-xl font-bold mb-2">Live Color Palette</h2>
-        <p className="text-muted-foreground mb-4">
-            The swatches below are rendered using the live CSS variables from the currently active theme. Use the theme switcher in the header to see them update in real time.
-        </p>
+        <p className="text-muted-foreground mb-4">The swatches below use the live CSS variables from the active theme. Use the controls above to see them update.</p>
         <ColorPalette colors={colorPaletteData} />
       </Card>
 
-      {/* --- ADD THIS NEW CARD FOR THE CODE BLOCK --- */}
       <Card className="mb-6 p-6">
         <h2 className="text-xl font-bold mb-2">Core Theme Variables</h2>
-        <p className="mb-4">
-          To create a new theme, create a new CSS class (e.g., `.my-cool-theme`) and define values for the core set of CSS variables.
-        </p>
-        <Alert variant="info" title="Important Note on Color Format" className="mb-4">
-          All color variables must be defined as three space-separated numbers representing the R G B values (e.g., `255 255 255` for white). This is required for Tailwind's opacity modifiers (like `bg-primary/50`) to work correctly.
+        <p className="mb-4">To create a theme, copy an existing block in `src/index.css` and customize the variable values.</p>
+        <Alert variant="info" title="Color Format" className="mb-4">
+          All color variables must be defined as three space-separated R G B values (e.g., `255 255 255`) for Tailwind's opacity modifiers to work.
         </Alert>
-        <CodeBlock language="css" code={themeCssVariables} />
-      </Card>
-
-      <Card className="p-6">
-        <h2 className="text-xl font-bold mb-2">How to Add a New Theme</h2>
-        <ol className="list-decimal pl-5 space-y-4">
-            <li>
-                <h3 className="font-bold">Step 1: Define Your Theme in CSS</h3>
-                <p>In `src/index.css`, add a new CSS class for your theme. Populate it with your desired values for the theme variables.</p>
-            </li>
-            <li>
-                <h3 className="font-bold">Step 2: Register the Theme</h3>
-                <p>Open `src/contexts/ThemeContext.tsx` in `@bodewell/ui` and add your new theme's class name to the `ThemeName` type and the `availableThemes` array.</p>
-            </li>
-            <li>
-                <h3 className="font-bold">Step 3: Test your Theme</h3>
-                <p>Use the theme switcher in the header of this starter kit to select your new theme and see the changes applied instantly.</p>
-            </li>
-        </ol>
+        <CodeBlock language="css" code={themeCssVariables.trim()} />
       </Card>
     </div>
   );
 };
+
+export default ThemingSection;

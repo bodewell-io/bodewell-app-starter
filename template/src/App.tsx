@@ -32,7 +32,7 @@ import NavigationSection from './pages/styleguide/sections/navigation/Navigation
 import TablesSection from './pages/styleguide/sections/tables/TablesSection';
 import TemplatesSection from './pages/styleguide/sections/templates/TemplatesSection';
 import UtilitiesSection from './pages/styleguide/sections/utilities/UtilitiesSection';
-import { ThemingSection } from './pages/styleguide/sections/theming/ThemingSection';
+import  ThemingSection  from './pages/styleguide/sections/theming/ThemingSection';
 
 
 

@@ -35,7 +35,7 @@ export const PageWithSideNav: React.FC<PageWithSideNavProps> = ({
       {/* --- Desktop Sidebar --- */}
       <aside className="hidden md:flex flex-col w-64 border-r border-border p-4 sticky top-[65px] h-[calc(100vh-65px)]">
         {sideNavHeader}
-        <LocalSideNav navItems={navItems} className="mt-6" />
+        <LocalSideNav navItems={navItems} className="mt-1" />
       </aside>
       
       {/* --- Mobile Drawer --- */}

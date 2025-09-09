@@ -1,15 +1,17 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import HashLinkScroll from '../../components/HashLinkScroll';
+import { PageWithSideNav } from '../../components/PageWithSideNav';
+import { styleguideNavItems } from './styleguide.config';
 
 const Styleguide: React.FC = () => {
   return (
-    <>
-      {/* This helper component ensures scrolling to #hash links works */}
-      <HashLinkScroll />
-      {/* The router will render the correct section (Colors, Forms, etc.) here */}
+    <PageWithSideNav
+      navItems={styleguideNavItems}
+      sideNavHeader={<div className="p-4 font-semibold text-lg">Style Guide</div>}
+      contentWidth="fixed"
+    >
       <Outlet />
-    </>
+    </PageWithSideNav>
   );
 };
 

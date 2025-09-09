@@ -46,14 +46,15 @@ const LocalSideNav: React.FC<LocalSideNavProps> = ({ navItems, className, onLink
 
       if (item.children) {
         return (
+          //Section link
           <li key={item.href}>
             <button
               onClick={() => handleToggle(item.href)}
-              className="flex w-full items-center justify-between gap-2 py-1 font-semibold text-text transition-colors duration-200 hover:text-primary"
+              className="flex w-full items-center justify-between gap-2 py-1 font-normal text-text transition-colors duration-200 hover:text-primary"
             >
               <span className="flex items-center gap-2">
                 {item.icon && <Icon name={item.icon} className="h-4 w-4" />}
-                <span className="text-lg">{item.label}</span>
+                <span className="text-md">{item.label}</span>
               </span>
               <Icon
                 name="chevron-right"
@@ -72,7 +73,7 @@ const LocalSideNav: React.FC<LocalSideNavProps> = ({ navItems, className, onLink
                     collapsed: { opacity: 0, height: 0 },
                   }}
                   transition={{ duration: 0.3, ease: 'easeInOut' }}
-                  className="space-y-1 overflow-hidden border-l border-border pl-6 mt-2 ml-2"
+                  className="space-y-1 overflow-hidden border-l border-border pl-5 mt-1 ml-1"
                 >
                   {item.children.map(child => (
                     <li key={child.href}>
@@ -109,7 +110,7 @@ const LocalSideNav: React.FC<LocalSideNavProps> = ({ navItems, className, onLink
 
   return (
     <nav className={`w-full ${className || ''}`}>
-      <ul className="space-y-3">
+      <ul className="space-y-1">
         {renderNavLinks(navItems)}
       </ul>
     </nav>
