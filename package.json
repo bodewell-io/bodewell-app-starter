@@ -1,6 +1,6 @@
 {
   "name": "create-bodewell-app",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "type": "module",
   "bin": "./index.js",
   "files": [
@@ -35,7 +35,7 @@
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   },
-"pnpm": {
+  "pnpm": {
     "overrides": {
       "react-router-dom": "6.30.1",
       "@bodewell/ui": "link:../bodewell-ui"
