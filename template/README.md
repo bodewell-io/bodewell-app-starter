@@ -31,7 +31,7 @@ cd <your-project-name>
 npm run dev
 ```
 
-Your new Bodewell application will be running at [title](http://localhost:5173.)
+Your new Bodewell application will be running at [http://localhost:5173](http://localhost:5173)
 
 ---
 
