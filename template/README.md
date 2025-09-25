@@ -10,24 +10,35 @@ The starter kit comes pre-configured with a modern frontend stack to ensure a sm
 
 ## Getting Started
 
-To create a new project using this starter kit, run the following command in your terminal. This will scaffold a new application in a directory of your choice. "your-project-name" will be the name of the new project folder.
+To create a new project using this starter kit, run the following command in your terminal. This will scaffold a new application in a directory of your choice. "your-project-name" should be customized for your new directory.
 
 ```bash
-npm create bodewell-app@latest <your-project-name>
+npm create bodewell-app@latest your-project-name
 ```
 
 This single command will:
 
-1. Create a new project folder.
+- Create a new project folder.
 
-2. Install all necessary dependencies, including React, Vite, and @bodewell/ui.
+- Install all necessary dependencies, including React, Vite, and @bodewell/ui.
 
-3. Set up the recommended folder structure and configuration files.
+- Set up the recommended folder structure and configuration files.
 
-After the installation is complete, navigate into your new project directory and start the development server:
+After the installation is complete: 
+
+# 1. Navigate into your new project
 
 ```bash
-cd <your-project-name>
+cd your-project-name
+```
+# 2. Install dependencies
+
+```bash
+pnpm install
+```
+# 3. Start the development server
+
+```bash
 npm run dev
 ```
 
