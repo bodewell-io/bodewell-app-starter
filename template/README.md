@@ -39,7 +39,7 @@ pnpm install
 # 3. Start the development server
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 Your new Bodewell application will be running at [http://localhost:5173](http://localhost:5173)
