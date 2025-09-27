@@ -1,18 +1,10 @@
+// src/pages/styleguide/Styleguide.tsx
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { PageWithSideNav } from '../../components/PageWithSideNav';
-import { styleguideNavItems } from './styleguide.config';
 
+// This component is also simplified. The local sidebar is gone.
 const Styleguide: React.FC = () => {
-  return (
-    <PageWithSideNav
-      navItems={styleguideNavItems}
-      sideNavHeader={<div className="p-4 font-semibold text-lg">Style Guide</div>}
-      contentWidth="fixed"
-    >
-      <Outlet />
-    </PageWithSideNav>
-  );
+  return <Outlet />;
 };
 
 export default Styleguide;

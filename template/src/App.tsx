@@ -1,16 +1,12 @@
+// src/App.tsx (Updated for Phase 3)
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { sitemap } from './sitemap'; // <-- Import sitemap
+import { generateRoutes } from './core/route-generator'; // <-- Import generator
 
 // Layouts and Route Guards
 import DefaultLayout from './components/DefaultLayout';
 import ProtectedRoute from './components/ProtectedRoute';
-
-// Page Components
-import Dashboard from './pages/Dashboard';
-import AiChat from './pages/AiChat';
 import LoginPage from './pages/LoginPage';
-import DataGridPage from './pages/DataGridPage';
-import AccountingLedgerPage from './pages/AccountingLedgerPage';
-import Styleguide from './pages/styleguide/Styleguide';
 import NotFound from './pages/styleguide/NotFound';
 
 function App() {
@@ -20,15 +16,10 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<DefaultLayout />}>
           <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="ai-chat" element={<AiChat />} />
           
-          {/* Data Routes */}
-          <Route path="data/grid" element={<DataGridPage />} />
-          <Route path="data/ledger" element={<AccountingLedgerPage />} />
+          {/* All the routes above are replaced by this one line */}
+          {generateRoutes(sitemap)}
           
-          {/* Styleguide Route - The Styleguide component handles its own nested routes */}
-          <Route path="styleguide/*" element={<Styleguide />} />
         </Route>
       </Route>
       <Route path="*" element={<NotFound />} />

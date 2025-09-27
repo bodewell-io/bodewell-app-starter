@@ -16,17 +16,34 @@ import {
   Badge,
   type IconName,
 } from '@bodewell/ui';
+import { sitemap } from '../sitemap';
 
 const AppSidebarContent: React.FC = () => {
   const { isOpen, toggle } = useSidebar();
 
-  const navItems: { label: string; href: string; icon: IconName; badge?: string }[] = [
-    { label: 'Dashboard', href: '/dashboard', icon: 'home' },
-    { label: 'AI Chat', href: '/ai-chat', icon: 'bot' },
-    { label: 'Data Grid', href: '/data/grid', icon: 'table', badge: 'New' },
-    { label: 'Accounting', href: '/data/ledger', icon: 'book-open' },
-    { label: 'Style Guide', href: '/styleguide', icon: 'palette' },
-  ];
+  // This logic now correctly flattens the sitemap for our sidebar
+  const navItems = sitemap.flatMap(item => {
+    const parentItem = {
+      label: item.title,
+      href: item.path,
+      icon: item.icon,
+      isParent: !!item.children,
+      badge: item.id === 'data' ? 'New' : undefined,
+    };
+
+    if (!item.children) {
+      return [parentItem];
+    }
+
+    const childItems = item.children.map(child => ({
+      label: child.title,
+      href: `${item.path}/${child.path}`, // Construct full path
+      icon: child.icon,
+      isParent: false,
+    }));
+    
+    return [parentItem, ...childItems];
+  });
 
   return (
     <>
@@ -44,12 +61,14 @@ const AppSidebarContent: React.FC = () => {
         <SidebarMenu>
           {navItems.map((item) => (
             <SidebarMenuItem
-              key={item.label}
+              key={item.href}
               href={item.href}
               as={NavLink}
-              icon={<Icon name={item.icon} />}
+              // THIS IS THE FIX: Only render the Icon if one is provided
+              icon={item.icon ? <Icon name={item.icon} /> : <span className="w-6" />}
               tooltip={item.label}
               badge={item.badge && <Badge variant="primary">{item.badge}</Badge>}
+              className={!item.isParent ? 'pl-10' : ''} // Indent child items
             >
               {item.label}
             </SidebarMenuItem>
@@ -68,6 +87,7 @@ const AppSidebarContent: React.FC = () => {
     </>
   );
 };
+
 
 const DefaultLayout: React.FC = () => {
   return (
