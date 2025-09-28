@@ -1,6 +1,6 @@
 // src/core/route-generator.tsx
 import { Route, Navigate } from 'react-router-dom';
-import type { SitemapEntry } from '../sitemap';
+import type { SitemapEntry } from '../templates/dashboard/dashboard.sitemap';
 
 export const generateRoutes = (routes: SitemapEntry[]) => {
   return routes.map((route) => {

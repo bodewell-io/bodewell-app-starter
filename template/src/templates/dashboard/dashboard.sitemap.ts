@@ -1,53 +1,45 @@
-// src/sitemap.ts
-import Dashboard from './pages/Dashboard';
-import AiChat from './pages/AiChat';
-import DataGridPage from './pages/DataGridPage';
-import AccountingLedgerPage from './pages/AccountingLedgerPage';
-import Styleguide from './pages/styleguide/Styleguide';
-import DataLayout from './layouts/DataLayout';
-import { type IconName } from '@bodewell/ui';
+import { type SitemapEntry } from '../../core/sitemap-entry';
 
-// Import all the style guide sections
-import TemplatesSection from './pages/styleguide/sections/templates/TemplatesSection';
-import LayoutSection from './pages/styleguide/sections/layout/LayoutSection';
-import ThemingSection from './pages/styleguide/sections/theming/ThemingSection';
-import NavigationSection from './pages/styleguide/sections/navigation/NavigationSection';
-import TablesSection from './pages/styleguide/sections/tables/TablesSection';
-import ChartsSection from './pages/styleguide/sections/charts/ChartsSection';
-import ElementsSection from './pages/styleguide/sections/elements/ElementsSection';
-import FormsSection from './pages/styleguide/sections/forms/FormsSection';
-import FeedbackSection from './pages/styleguide/sections/feedback/FeedbackSection';
-import UtilitiesSection from './pages/styleguide/sections/utilities/UtilitiesSection';
-import ColorsSection from './pages/styleguide/sections/colors/ColorsSection';
-import IconsSection from './pages/styleguide/sections/icons/IconsSection';
+// Component Imports
+import Dashboard from '../../pages/Dashboard';
+import AiChat from '../../pages/AiChat';
+import DataGridPage from '../../pages/DataGridPage';
+import AccountingLedgerPage from '../../pages/AccountingLedgerPage';
+import Styleguide from '../../pages/styleguide/Styleguide';
+import DataLayout from '../../layouts/DataLayout';
 
-export interface SitemapEntry {
-  id: string;
-  path: string;
-  title: string;
-  icon?: IconName;
-  component: React.ComponentType;
-  children?: SitemapEntry[];
-}
+// Style Guide Section Imports
+import TemplatesSection from '../../pages/styleguide/sections/templates/TemplatesSection';
+import LayoutSection from '../../pages/styleguide/sections/layout/LayoutSection';
+import ThemingSection from '../../pages/styleguide/sections/theming/ThemingSection';
+import NavigationSection from '../../pages/styleguide/sections/navigation/NavigationSection';
+import TablesSection from '../../pages/styleguide/sections/tables/TablesSection';
+import ChartsSection from '../../pages/styleguide/sections/charts/ChartsSection';
+import ElementsSection from '../../pages/styleguide/sections/elements/ElementsSection';
+import FormsSection from '../../pages/styleguide/sections/forms/FormsSection';
+import FeedbackSection from '../../pages/styleguide/sections/feedback/FeedbackSection';
+import UtilitiesSection from '../../pages/styleguide/sections/utilities/UtilitiesSection';
+import ColorsSection from '../../pages/styleguide/sections/colors/ColorsSection';
+import IconsSection from '../../pages/styleguide/sections/icons/IconsSection';
 
 export const sitemap: SitemapEntry[] = [
   {
     id: 'dashboard',
-    path: '/dashboard',
+    path: '', // <-- This is now the index route for the layout
     title: 'Dashboard',
     icon: 'home',
     component: Dashboard,
   },
   {
     id: 'ai-chat',
-    path: '/ai-chat',
+    path: 'ai-chat', // <-- Removed leading '/'
     title: 'AI Chat',
     icon: 'bot',
     component: AiChat,
   },
   {
     id: 'data',
-    path: '/data',
+    path: 'data', // <-- Removed leading '/'
     title: 'Data',
     icon: 'database',
     component: DataLayout,
@@ -58,7 +50,7 @@ export const sitemap: SitemapEntry[] = [
   },
   {
     id: 'styleguide',
-    path: '/styleguide',
+    path: 'styleguide', // <-- Removed leading '/'
     title: 'Style Guide',
     icon: 'palette',
     component: Styleguide,

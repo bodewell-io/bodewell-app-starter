@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
+import { Outlet, NavLink, Link } from 'react-router-dom'; // <-- Add Link import
 import {
   Sidebar,
   SidebarProvider,
@@ -16,12 +16,11 @@ import {
   Badge,
   type IconName,
 } from '@bodewell/ui';
-import { sitemap } from '../sitemap';
+import { sitemap } from './dashboard.sitemap';
 
 const AppSidebarContent: React.FC = () => {
   const { isOpen, toggle } = useSidebar();
 
-  // This logic now correctly flattens the sitemap for our sidebar
   const navItems = sitemap.flatMap(item => {
     const parentItem = {
       label: item.title,
@@ -37,7 +36,7 @@ const AppSidebarContent: React.FC = () => {
 
     const childItems = item.children.map(child => ({
       label: child.title,
-      href: `${item.path}/${child.path}`, // Construct full path
+      href: `${item.path}/${child.path}`,
       icon: child.icon,
       isParent: false,
     }));
@@ -64,11 +63,11 @@ const AppSidebarContent: React.FC = () => {
               key={item.href}
               href={item.href}
               as={NavLink}
-              // THIS IS THE FIX: Only render the Icon if one is provided
               icon={item.icon ? <Icon name={item.icon} /> : <span className="w-6" />}
               tooltip={item.label}
-              badge={item.badge && <Badge variant="primary">{item.badge}</Badge>}
-              className={!item.isParent ? 'pl-10' : ''} // Indent child items
+              // --- TEMPORARY FIX ---
+              // badge={item.badge && <Badge variant="primary">{item.badge}</Badge>}
+              className={!item.isParent ? 'pl-10' : ''}
             >
               {item.label}
             </SidebarMenuItem>
@@ -89,7 +88,7 @@ const AppSidebarContent: React.FC = () => {
 };
 
 
-const DefaultLayout: React.FC = () => {
+const DashboardLayout: React.FC = () => {
   return (
     <SidebarProvider>
       <div className="flex h-screen bg-background text-foreground">
@@ -98,6 +97,15 @@ const DefaultLayout: React.FC = () => {
         </Sidebar>
         <main className="flex-1 overflow-y-auto p-8 relative">
           <SidebarTrigger />
+
+          {/* --- THIS IS THE NEW CODE TO ADD --- */}
+          <div className="absolute top-8 right-8 bg-muted text-muted-foreground p-2 rounded-md text-sm z-10">
+            <span>Switch Template: </span>
+            <Link to="/dashboard" className="font-bold underline">Dashboard</Link>
+            {' | '}
+            <Link to="/docs/introduction" className="font-bold underline">Docs</Link>
+          </div>
+
           <div className="mt-8 md:mt-0">
             <Outlet />
           </div>
@@ -107,4 +115,4 @@ const DefaultLayout: React.FC = () => {
   );
 };
 
-export default DefaultLayout;
+export default DashboardLayout;

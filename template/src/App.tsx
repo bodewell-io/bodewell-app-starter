@@ -1,10 +1,13 @@
-// src/App.tsx (Updated for Phase 3)
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { sitemap } from './sitemap'; // <-- Import sitemap
-import { generateRoutes } from './core/route-generator'; // <-- Import generator
+import { generateRoutes } from './core/route-generator';
 
-// Layouts and Route Guards
-import DefaultLayout from './components/DefaultLayout';
+// Import BOTH templates
+import DashboardLayout from './templates/dashboard/DashboardLayout';
+import { sitemap as dashboardSitemap } from './templates/dashboard/dashboard.sitemap';
+import DocsLayout from './templates/docs/DocsLayout';
+import { docsSitemap } from './templates/docs/docs.sitemap';
+
+// Other Imports
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import NotFound from './pages/styleguide/NotFound';
@@ -14,12 +17,17 @@ function App() {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<DefaultLayout />}>
-          <Route index element={<Navigate to="/dashboard" replace />} />
-          
-          {/* All the routes above are replaced by this one line */}
-          {generateRoutes(sitemap)}
-          
+        {/* Default redirect to the dashboard's root */}
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+
+        {/* Dashboard Template Routes */}
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          {generateRoutes(dashboardSitemap)}
+        </Route>
+        
+        {/* Docs Template Routes */}
+        <Route path="/docs" element={<DocsLayout />}>
+          {generateRoutes(docsSitemap)}
         </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
