@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, NavLink, Link } from 'react-router-dom'; // <-- Add Link import
+import { Outlet, NavLink, Link, useLocation } from 'react-router-dom';
 import {
   Sidebar,
   SidebarProvider,
@@ -13,64 +13,60 @@ import {
   Button,
   Icon,
   Avatar,
-  Badge,
-  type IconName,
 } from '@bodewell/ui';
 import { sitemap } from './dashboard.sitemap';
+import AppHeader from '../../components/AppHeader';
+
+// This wrapper consumes the `end` prop so it doesn't leak to the DOM.
+const SidebarNavLink = React.forwardRef<HTMLAnchorElement, any>(({ end, ...props }, ref) => {
+  return <NavLink ref={ref} {...props} end={end} />;
+});
+SidebarNavLink.displayName = 'SidebarNavLink';
+
 
 const AppSidebarContent: React.FC = () => {
   const { isOpen, toggle } = useSidebar();
-
-  const navItems = sitemap.flatMap(item => {
-    const parentItem = {
-      label: item.title,
-      href: item.path,
-      icon: item.icon,
-      isParent: !!item.children,
-      badge: item.id === 'data' ? 'New' : undefined,
-    };
-
-    if (!item.children) {
-      return [parentItem];
-    }
-
-    const childItems = item.children.map(child => ({
-      label: child.title,
-      href: `${item.path}/${child.path}`,
-      icon: child.icon,
-      isParent: false,
-    }));
-    
-    return [parentItem, ...childItems];
-  });
 
   return (
     <>
       <SidebarHeader>
         <div className="flex items-center justify-between w-full">
-          <span className={`text-xl font-bold transition-opacity duration-200 ${!isOpen && 'opacity-0'}`}>
-            Bodewell
-          </span>
-          <Button variant="ghost" size="icon" onClick={toggle} className="hidden md:flex">
-            <Icon name="panel-left-close" />
-          </Button>
+            <div className={`flex items-center gap-2 transition-opacity duration-200 ${!isOpen && 'opacity-0'}`}>
+                <Icon name="layout-template" size={24} className="text-primary" />
+                <span className="text-xl font-bold">Bodewell</span>
+            </div>
+            <Button variant="ghost" size="icon" onClick={toggle} className="hidden md:flex">
+                <Icon name="panel-left-close" />
+            </Button>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
-          {navItems.map((item) => (
-            <SidebarMenuItem
-              key={item.href}
-              href={item.href}
-              as={NavLink}
-              icon={item.icon ? <Icon name={item.icon} /> : <span className="w-6" />}
-              tooltip={item.label}
-              // --- TEMPORARY FIX ---
-              // badge={item.badge && <Badge variant="primary">{item.badge}</Badge>}
-              className={!item.isParent ? 'pl-10' : ''}
-            >
-              {item.label}
-            </SidebarMenuItem>
+          {sitemap.map((item) => (
+            <React.Fragment key={item.id}>
+              <SidebarMenuItem
+                as={SidebarNavLink}
+                href={item.path || ''}
+                end={!item.children || item.children.length === 0}
+                icon={item.icon ? <Icon name={item.icon} /> : undefined}
+                tooltip={item.title}
+              >
+                {item.title}
+              </SidebarMenuItem>
+              {item.children && isOpen && item.children.map((child) => (
+                <SidebarMenuItem
+                  key={child.id}
+                  as={SidebarNavLink}
+                  href={`${item.path}/${child.path}`}
+                  end
+                  icon={child.icon ? <Icon name={child.icon} /> : undefined}
+                  tooltip={child.title}
+                  className="pl-10"
+                >
+                  {child.title}
+                </SidebarMenuItem>
+              ))}
+            </React.Fragment>
           ))}
         </SidebarMenu>
       </SidebarContent>
@@ -87,7 +83,6 @@ const AppSidebarContent: React.FC = () => {
   );
 };
 
-
 const DashboardLayout: React.FC = () => {
   return (
     <SidebarProvider>
@@ -95,21 +90,12 @@ const DashboardLayout: React.FC = () => {
         <Sidebar>
           <AppSidebarContent />
         </Sidebar>
-        <main className="flex-1 overflow-y-auto p-8 relative">
-          <SidebarTrigger />
-
-          {/* --- THIS IS THE NEW CODE TO ADD --- */}
-          <div className="absolute top-8 right-8 bg-muted text-muted-foreground p-2 rounded-md text-sm z-10">
-            <span>Switch Template: </span>
-            <Link to="/dashboard" className="font-bold underline">Dashboard</Link>
-            {' | '}
-            <Link to="/docs/introduction" className="font-bold underline">Docs</Link>
-          </div>
-
-          <div className="mt-8 md:mt-0">
+        <div className="flex flex-col flex-1 overflow-y-auto">
+          <AppHeader />
+          <main className="p-8">
             <Outlet />
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
     </SidebarProvider>
   );

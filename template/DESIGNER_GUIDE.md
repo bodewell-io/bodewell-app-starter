@@ -36,30 +36,20 @@ Once the installation is complete, navigate into your new project directory and 
 
 Your new Bodewell application will now be running at [http://localhost:5173](http://localhost:5173). Open this link in your web browser, and you will see the interactive style guide.
 
-## 5. Exploring the Style Guide
+## 5. Exploring the Application
 
-The application that's running is a complete, interactive style guide for the `@bodewell/ui` component library. This is your primary resource for discovering what you can build.
+The application that's running is a complete, interactive prototype that also serves as a style guide for the `@bodewell/ui` component library.
 
 * **Live Components**: Every component you see is a live, interactive example. You can click buttons, open menus, and interact with forms to see exactly how they look and feel.
-* **Side Navigation**: Use the navigation on the left to jump between different categories of components, such as "Forms," "Charts," or "Navigation."
-* **Dynamic Theming**: Use the "Switch Theme" dropdown in the "Layout" section to see how all components instantly adapt to different visual styles (like Dark Mode).
+* **Side Navigation**: Use the navigation on the left to jump between different pages and categories of components.
+* **Dynamic Theming**: Use the user menu in the top-right header to switch between themes and see how all components instantly adapt to different visual styles (like Dark Mode).
+* **Multi-Template System**: Use the "Dashboard | Docs" toggle in the header to switch between two different application layouts. Notice how the content stays the same, but the entire navigation structure changes.
 
-## 6. Making Your First Change
+## 6. The Power of the Sitemap: Your First Change
 
-The best way to get started is to make a small change and see it update live in your browser. Let's change the title of the "Colors" section.
+The single most powerful feature of the Bodewell starter is that the application's entire structure—its pages, navigation, titles, and icons—is controlled by a single file called a **sitemap**.
+
+This is your central control panel. You don't need to hunt through component files to change a page title or reorder a navigation item. Let's try it.
 
 1.  **Open the Project in Your Code Editor**: Open the folder you created (e.g., `my-new-prototype`) in VS Code.
-2.  **Find the File**: In the file explorer on the left, navigate to `src` > `pages` > `styleguide` > `sections` > `colors` and open the `ColorsSection.tsx` file.
-3.  **Edit the Title**: On or around line 100, you will find a line that looks like this:
-
-    `typescript
-    <SectionHeader title="Color Palette" />`
-
-4.  **Change the Text**: Change the `title` to something new, for example:
-
-    `typescript
-    <SectionHeader title="Our Brand Colors" />`
-
-5.  **Save the File**: Save the file (`Ctrl+S` or `Cmd+S`). As soon as you save, the browser will automatically refresh, and you will see your new title on the page.
-
-You've just made your first customization! You can now use this same process—finding a component in the style guide and editing its source code—to build out any feature or screen you can imagine.
+2.  **Find the Sitemap**: In the file explorer on the left, navigate to `src` > `templates` > `dashboard` and open the `dashboard.sitemap.ts
