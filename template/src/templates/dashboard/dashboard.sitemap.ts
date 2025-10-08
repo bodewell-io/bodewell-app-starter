@@ -22,24 +22,37 @@ import UtilitiesSection from '../../pages/styleguide/sections/utilities/Utilitie
 import ColorsSection from '../../pages/styleguide/sections/colors/ColorsSection';
 import IconsSection from '../../pages/styleguide/sections/icons/IconsSection';
 
+// --- ADD THIS IMPORT ---
+import EntitySelectorPage from '../../pages/prototypes/EntitySelectorPage';
+
+
 export const sitemap: SitemapEntry[] = [
   {
     id: 'dashboard',
-    path: '', // <-- This is now the index route for the layout
-    title: 'Dashboard',
-    icon: 'home',
+    path: '',
+    title: 'Home Overview',
+    icon: 'layout-dashboard',
     component: Dashboard,
+  },
+  
+    // --- ADD THIS NEW SITEMAP ENTRY ---
+  {
+    id: 'entity-selector-prototype',
+    path: 'prototypes/entity-selector',
+    title: 'Entity Prototype',
+    icon: 'beaker',
+    component: EntitySelectorPage,
   },
   {
     id: 'ai-chat',
-    path: 'ai-chat', // <-- Removed leading '/'
+    path: 'ai-chat',
     title: 'AI Chat',
     icon: 'bot',
     component: AiChat,
   },
   {
     id: 'data',
-    path: 'data', // <-- Removed leading '/'
+    path: 'data',
     title: 'Data',
     icon: 'database',
     component: DataLayout,
@@ -50,7 +63,7 @@ export const sitemap: SitemapEntry[] = [
   },
   {
     id: 'styleguide',
-    path: 'styleguide', // <-- Removed leading '/'
+    path: 'styleguide',
     title: 'Style Guide',
     icon: 'palette',
     component: Styleguide,

@@ -19,7 +19,7 @@ import AppHeader from '../../components/AppHeader';
 
 // This wrapper consumes the `end` prop so it doesn't leak to the DOM.
 const SidebarNavLink = React.forwardRef<HTMLAnchorElement, any>(({ end, ...props }, ref) => {
-  return <NavLink ref={ref} {...props} end={end} />;
+  return <NavLink to={''} ref={ref} {...props} end={end} />;
 });
 SidebarNavLink.displayName = 'SidebarNavLink';
 
