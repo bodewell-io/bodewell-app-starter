@@ -91,7 +91,7 @@ const DashboardLayout: React.FC = () => {
           <AppSidebarContent />
         </Sidebar>
         <div className="flex flex-col flex-1 overflow-y-auto">
-          <AppHeader />
+          {/* <AppHeader /> */}
           <main className="p-8">
             <Outlet />
           </main>

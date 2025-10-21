@@ -1,6 +1,6 @@
 {
   "name": "create-bodewell-app",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "type": "module",
   "bin": "./index.js",
   "files": [
@@ -13,7 +13,7 @@
     "preview": "cd template && vite preview"
   },
   "dependencies": {
-    "@bodewell/ui": "^0.12.1",
+    "@bodewell/ui": "^0.12.2",
     "ag-grid-community": "^34.1.2",
     "ag-grid-enterprise": "^34.1.2",
     "ag-grid-react": "^34.1.2",
