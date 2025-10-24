@@ -1,11 +1,13 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { generateRoutes } from './core/route-generator';
 
-// Import BOTH templates
+// --- 1. IMPORT ALL THREE TEMPLATES ---
 import DashboardLayout from './templates/dashboard/DashboardLayout';
-import { sitemap as dashboardSitemap } from './templates/dashboard/dashboard.sitemap';
+import { dashboardSitemap as dashboardSitemap } from './templates/dashboard/dashboard.sitemap';
 import DocsLayout from './templates/docs/DocsLayout';
-import { docsSitemap } from './templates/docs/docs.sitemap';
+import { docsSitemap as docsSitemap } from './templates/docs/docs.sitemap';
+import SettingsLayout from './templates/settings/SettingsLayout'; // <-- NEW
+import { settingsSitemap as settingsSitemap } from './templates/settings/settings.sitemap'; // <-- NEW
 
 // Other Imports
 import ProtectedRoute from './components/ProtectedRoute';
@@ -21,13 +23,22 @@ function App() {
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
         {/* Dashboard Template Routes */}
-        <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route path="/dashboard/*" element={<DashboardLayout />}>
+          {' '}
+          {/* <-- Added /* */}
           {generateRoutes(dashboardSitemap)}
         </Route>
-        
+
         {/* Docs Template Routes */}
-        <Route path="/docs" element={<DocsLayout />}>
+        <Route path="/docs/*" element={<DocsLayout />}>
+          {' '}
+          {/* <-- Added /* */}
           {generateRoutes(docsSitemap)}
+        </Route>
+
+        {/* --- 2. ADD THE NEW SETTINGS LAYOUT ROUTE --- */}
+        <Route path="/settings/*" element={<SettingsLayout />}>
+          {generateRoutes(settingsSitemap)}
         </Route>
       </Route>
       <Route path="*" element={<NotFound />} />

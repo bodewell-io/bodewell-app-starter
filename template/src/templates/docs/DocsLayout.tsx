@@ -5,6 +5,7 @@ import { SitemapProvider } from '../../contexts/SitemapContext';
 import AppHeader from '../../components/AppHeader';
 import AppFooter from '../../components/AppFooter';
 import { Icon } from '@bodewell/ui';
+import PageTitleUpdater from '../../components/PageTitleUpdater';
 
 const DocsLayout: React.FC = () => {
   return (
@@ -39,6 +40,7 @@ const DocsLayout: React.FC = () => {
           </div>
           <div className="container mx-auto p-4 md:p-8">
             <SitemapProvider value={docsSitemap}>
+              <PageTitleUpdater />
               <Outlet />
             </SitemapProvider>
           </div>

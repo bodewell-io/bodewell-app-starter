@@ -10,6 +10,7 @@ const TemplateSwitcher: React.FC = () => {
   const location = useLocation();
   const isDashboard = location.pathname.startsWith('/dashboard');
   const isDocs = location.pathname.startsWith('/docs');
+  const isSettings = location.pathname.startsWith('/settings');
 
   return (
     <div className="bg-muted text-muted-foreground p-1 rounded-md text-sm flex items-center gap-1">
@@ -30,6 +31,16 @@ const TemplateSwitcher: React.FC = () => {
         }`}
       >
         Docs
+      </Link>
+      <Link
+        to="/settings"
+        className={`px-3 py-1 rounded ${
+          isSettings
+            ? 'bg-background shadow-sm text-foreground font-semibold'
+            : ''
+        }`}
+      >
+        Settings
       </Link>
     </div>
   );

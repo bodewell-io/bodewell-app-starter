@@ -26,7 +26,7 @@ import IconsSection from '../../pages/styleguide/sections/icons/IconsSection';
 import EntitySelectorPage from '../../pages/prototypes/EntitySelectorPage';
 
 
-export const sitemap: SitemapEntry[] = [
+export const dashboardSitemap: SitemapEntry[] = [
   {
     id: 'dashboard',
     path: '',
