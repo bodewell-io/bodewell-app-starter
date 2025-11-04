@@ -1,15 +1,4 @@
-/**
- * @file DashboardLayout.tsx
- * @repository bodewell-app-starter
- *
- * @developer_notes
- * STRATEGIC REFACTOR (10/24/2025):
- * 1. Corrected layout structure: AppHeader above Sidebar.
- * 2. Removed redundant branding/footer from Sidebar.
- * 3. Includes PageTitleUpdater and SitemapProvider.
- * 4. Fixed sitemap import, provider value, and added mapping logic.
- * 5. Fixed PageTitleUpdater import path typo.
- */
+// bodewell-app-starter/template/src/templates/dashboard/DashboardLayout.tsx
 import React from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
 import {
@@ -18,8 +7,8 @@ import {
   SidebarHeader,
   SidebarContent,
   SidebarFooter,
-  SidebarMenu, // <-- Now used
-  SidebarMenuItem, // <-- Now used
+  SidebarMenu,
+  SidebarMenuItem,
   useSidebar,
   Button,
   Icon,
@@ -44,21 +33,27 @@ const AppSidebarContent: React.FC = () => {
     <>
       <SidebarHeader>
         <div className="flex items-center justify-end w-full h-full">
-          <Button variant="ghost" size="icon" onClick={toggle} className="hidden md:flex mr-1">
-            <Icon name="panel-left-close" />
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggle}
+            className="hidden md:flex mr-1"
+          >
+            <Icon name={isOpen ? 'panel-left-close' : 'panel-left-open'} />
           </Button>
         </div>
       </SidebarHeader>
 
-      {/* --- FIX 3: ADD SITEMAP MAPPING LOGIC --- */}
       <SidebarContent>
         <SidebarMenu>
-          {dashboardSitemap.map((item) => ( // Use dashboardSitemap
+          {dashboardSitemap.map((item) => (
             <React.Fragment key={item.id}>
               <SidebarMenuItem
                 as={SidebarNavLink}
-                href={item.path ? `/dashboard/${item.path}` : '/dashboard'} // Correct path
-                end={!item.children || item.children.length === 0}
+                href={item.path ? `/dashboard/${item.path}` : '/dashboard'}
+                // --- THIS IS THE FIX ---
+                // Force exact match for all parent links
+                end
                 icon={item.icon ? <Icon name={item.icon} /> : undefined}
                 tooltip={item.title}
               >
@@ -70,7 +65,9 @@ const AppSidebarContent: React.FC = () => {
                   <SidebarMenuItem
                     key={child.id}
                     as={SidebarNavLink}
-                    href={`/dashboard/${item.path}/${child.path}`} // Correct path
+                    href={`/dashboard/${item.path}/${child.path}`}
+                    // --- THIS IS THE FIX ---
+                    // 'end' was already here, which is correct
                     end
                     icon={child.icon ? <Icon name={child.icon} /> : undefined}
                     tooltip={child.title}
@@ -92,7 +89,6 @@ const AppSidebarContent: React.FC = () => {
 // Main Layout Component
 const DashboardLayout: React.FC = () => {
   return (
-    // --- FIX 2: USE CORRECT PROVIDER VALUE ---
     <SitemapProvider value={dashboardSitemap}>
       <PageTitleUpdater />
       <SidebarProvider>
